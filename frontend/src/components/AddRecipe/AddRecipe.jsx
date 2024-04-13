@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import "./AddRecipe.css";
 import upload_area from "./velikonocni-cupcaky.jpg";
 
 const AddRecipe = () => {
   const [image, setImage] = useState(false);
+  const navigate = useNavigate();
   const [recipeDetails, setRecipeDetails] = useState({
     name: "",
     image: "",
@@ -44,13 +46,10 @@ const AddRecipe = () => {
       );
     } else {
       // Redirect to login page if not authenticated
-      return <Redirect to="/login" />;
+      navigate('/login');
     }
   };
-
-};
-
-  const Add_Recipe = async ()=>{
+const Add_Recipe = async ()=>{
     let recipe = { ...recipeDetails};
     recipe.ingredients = ingredients;
     recipe.preparation_process = preparationProcess;
@@ -87,7 +86,6 @@ const AddRecipe = () => {
   }
   else{
     alert("not logged in")
-  }
   }
   // Separate state for ingredients
   const [ingredients, setIngredients] = useState(['']);
@@ -216,5 +214,8 @@ const AddRecipe = () => {
         </div>
   );
 }
+};
+
+  
 
 export default AddRecipe;
