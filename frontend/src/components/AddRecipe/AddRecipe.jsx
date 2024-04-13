@@ -7,6 +7,7 @@ const AddRecipe = () => {
   const [image, setImage] = useState(false);
   const navigate = useNavigate();
   const [recipeDetails, setRecipeDetails] = useState({
+    userId:"",
     name: "",
     image: "",
     category: "",
@@ -214,6 +215,7 @@ const Add_Recipe = async ()=>{
         </div>
   );
 }
+return renderAddRecipePage();
 };
 
   
