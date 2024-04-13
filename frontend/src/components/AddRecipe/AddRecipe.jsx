@@ -47,7 +47,7 @@ const AddRecipe = () => {
       );
     } else {
       // Redirect to login page if not authenticated
-      navigate('/login');
+      return <p>Loading</p>
     }
   };
 const Add_Recipe = async ()=>{
