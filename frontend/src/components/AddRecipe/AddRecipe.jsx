@@ -30,7 +30,7 @@ const AddRecipe = () => {
 
   useEffect(() => {
     // Check authentication status when the component mounts
-    const authToken = localStorage.getItem('auth-token');
+    const authToken = sessionStorage.getItem('auth-token');
     if (authToken) {
       setAuthenticated(true);
     } else {
@@ -67,7 +67,7 @@ const Add_Recipe = async ()=>{
       body:formData
     }).then((resp)=> resp.json()).then((data)=>{responseData=data});
 
-    if(localStorage.getItem('auth-token')){
+    if(sessionStorage.getItem('auth-token')){
       if(responseData.success){
       recipe.image = responseData.image_url;
       console.log(recipe)
@@ -76,7 +76,7 @@ const Add_Recipe = async ()=>{
         headers:{
           Accept:'application/json',
           'Content-Type':'application/json',
-          'auth-token':`${localStorage.getItem('auth-token')}`,
+          'auth-token':`${sessionStorage.getItem('auth-token')}`,
         },
         body: JSON.stringify(recipe),
       }).then((resp)=>resp.json()).then((data)=>{
