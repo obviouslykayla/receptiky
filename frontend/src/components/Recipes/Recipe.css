@@ -1,0 +1,15 @@
+.recipe{
+    width: 350px;
+}
+.recipe p{
+    margin: 6px 0px;
+}
+.recipe img{
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.recipe:hover {
+    transform: scale(1.05);
+    transition: 0.6s;
+}
