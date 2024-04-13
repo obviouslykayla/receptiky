@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./AddRecipe.css"
-import upload_area from "../assets/velikonocni-cupcaky.jpg"
+import upload_area from "../assets/upload.jpg"
 
 const AddRecipe = () => {
   const [image, setImage]=useState(false);
@@ -99,23 +99,23 @@ const AddRecipe = () => {
 
   return (
     <div className='add-recipe'>
-      <div className="addrecipe-itemfield">
+      <div className="addrecipe-name">
         <p>Název receptu</p>
-        <input value={recipeDetails.name} onChange={changeHandler} type="text" name="name" placeholder='here motherfucker' />
+        <input value={recipeDetails.name} onChange={changeHandler} type="text" name="name" placeholder='Název receptu' />
       </div>
       <div className="addrecipe-serving">
         <div className="addrecipe-serving-itemfield">
           <p>Počet porcí</p>
-          <input value={recipeDetails.servings} onChange={changeHandler}  type="text" name="servings" placeholder='here' />
+          <input value={recipeDetails.servings} onChange={changeHandler}  type="text" name="servings" placeholder='Počet porcí' />
         </div>
       </div>
       <div className="addrecipe-time">
         <div className="addrecipe-time-itemfield">
           <p>Čas přípravy</p>
-          <input value={recipeDetails.preparation_time} onChange={changeHandler} type="text" name="preparation_time" placeholder='here' />
+          <input value={recipeDetails.preparation_time} onChange={changeHandler} type="text" name="preparation_time" placeholder='Čas přípravy' />
         </div>
       </div>
-      <div className="addrecipe-time">
+      <div className="addrecipe-source">
         <div className="addrecipe-time-itemfield">
           <p>Zdroj receptu: </p>
           <input value={recipeDetails.source} onChange={changeHandler} type="text" name="source" placeholder='Zdroj receptu' />
@@ -135,39 +135,42 @@ const AddRecipe = () => {
       </div>
       <div className="addrecipe-itemfield">
         <label htmlFor="file-input">
-          <img src={image?URL.createObjectURL(image):upload_area} width="50px" className="addrecipe-thumbnail" alt="" />
+          <img src={image?URL.createObjectURL(image):upload_area}  className="addrecipe-thumbnail" alt="" />
         </label>
         <input onChange={imageHandler} type="file" name="image"  id="file-input" hidden/>
       </div>
-    <div>
+    <div className='addrecipe-item'>
       {ingredients.map((value, index) => (
           <div key={index}>
             <input
               type="text"
+              placeholder='Ingredience'
               value={value}
               onChange={(event) => handleIngredientChange(index, event)}
             />
             {/* Add button to remove input field for ingredients */}
-            <button onClick={() => handleRemoveIngredient(index)}>Remove</button>
+            <button onClick={() => handleRemoveIngredient(index)}>Odstraň pole</button>
+            
           </div>
         ))}
         {/* Add button to add new input field for ingredients */}
-        <button onClick={handleAddIngredient}>Add Ingredient</button>
+        <button onClick={handleAddIngredient}>Přidej další ingredience</button>
       </div>
-      <div>
+      <div className='addrecipe-item'>
       {preparationProcess.map((value, index) => (
           <div key={index}>
             <input
               type="text"
+              placeholder='Krok postupu'
               value={value}
               onChange={(event) => handlePreparationProcessChange(index, event)}
             />
             {/* Add button to remove input field for preparation process */}
-            <button onClick={() => handleRemovePreparationProcess(index)}>Remove</button>
+            <button onClick={() => handleRemovePreparationProcess(index)}>Odstraň pole</button>
           </div>
         ))}
         {/* Add button to add new input field for preparation process */}
-        <button onClick={handleAddPreparationProcess}>Add Preparation Process</button>
+        <button onClick={handleAddPreparationProcess}>Přidej další krok postupu</button>
       </div>
       <button onClick={()=>{Add_Recipe()}} className='addrecipe-btn'>Přidej recept</button>
 

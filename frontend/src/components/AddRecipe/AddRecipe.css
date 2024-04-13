@@ -1,9 +1,94 @@
-.add-recipe{
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 800px;
-    padding: 30px 50px;
-    margin: 20px 30px;
-    border-radius: 6px;
-    background: white;
+.add-recipe {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    width: 70%;
+    margin-left: 25vh;
+    margin-top: 20px;
 }
+
+.add-recipe p {
+margin-bottom: 5px;
+}
+
+.add-recipe input[type="text"],
+.add-recipe select {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-sizing: border-box;
+height: 50px;
+}
+
+.add-recipe .addrecipe-thumbnail {
+cursor: pointer;
+}
+.addrecipe-thumbnail{
+    width: 90px;
+}
+
+.add-recipe button {
+padding: 10px 20px;
+margin-top: 10px;
+background-color: #10cb74;
+color: #fff;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.add-recipe button:hover {
+background-color: #10cb74;
+}
+
+.add-recipe .addrecipe-itemfield {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.add-recipe .addrecipe-itemfield input[type="file"] {
+display: none;
+}
+
+.add-recipe .addrecipe-itemfield label {
+margin-right: 10px;
+}
+
+.add-recipe .addrecipe-selector {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-sizing: border-box;
+}
+
+.add-recipe .addrecipe-btn {
+width: 50%;
+
+}
+.addrecipe-item{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.addrecipe-item input[type="text"] {
+  margin-right: 10px;
+  width: 100%;
+}
+
+.addrecipe-item button {
+    padding: 8px 12px;
+    background-color: #10cb74;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .addrecipe-item button:hover {
+    background-color: #10cb74;
+  }

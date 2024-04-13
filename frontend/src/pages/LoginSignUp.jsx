@@ -57,13 +57,13 @@ const LoginSignUp = () => {
       <div className="loginsignup-container">
         <h1>{state}</h1>
         <div className="loginsignup-fields">
-          {state==="Sign Up"?<input name='username' onChange={changeHandler} value={formData.username} type="text" placeholder='your name' />:<></>}
-          <input name='email' onChange={changeHandler} value={formData.email} type="email" placeholder='your email' />
-          <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='passwod' />
+          {state==="Sign Up"?<input name='username' onChange={changeHandler} value={formData.username} type="text" placeholder='Username' />:<></>}
+          <input name='email' onChange={changeHandler} value={formData.email} type="email" placeholder='Email' />
+          <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='Heslo' />
         </div>
-        <button onClick={()=>{state==="Login"?login():signup()}}>continue</button>
-        {state==="Sign Up"?<p className="loginsignup-login">already have an account? <span onClick={()=>{setState("Login")}}>login here</span></p>
-        :<p className="loginsignup-login">Create an account? <span onClick={()=>{setState("Sign Up")}}>click here</span></p>}
+        <button onClick={()=>{state==="Login"?login():signup()}}>Pokračovat</button>
+        {state==="Sign Up"?<p className="loginsignup-login">Již máte účet? <span onClick={()=>{setState("Login")}}>Přihlašte se zde</span></p>
+        :<p className="loginsignup-login">Nemáte účet? <span onClick={()=>{setState("Sign Up")}}>Vytvořte si ho zde</span></p>}
       </div>
     </div>
   )

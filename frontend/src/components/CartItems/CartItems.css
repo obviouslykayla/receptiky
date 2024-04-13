@@ -8,7 +8,11 @@
 }
 .cartitems{
     margin-top:50px ;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-column: auto;
     gap: 30px;
+}
+.cartitems-remove-icon{
+    width: 25px;
+    height: 25px;
 }
