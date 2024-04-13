@@ -21,7 +21,11 @@ const RecipeDisplay = (props) => {
                 Počet porcí: {recipe.servings} 
             </div>
         </div>
-        <button onClick={()=>{saveForLater(recipe.id)}} className='button' >Uložit na později</button>
+        {localStorage.getItem('auth-token')
+        ?<button className='button' onClick={()=>{saveForLater(recipe.id)}}>uložit na později</button>
+        :<></>
+        }
+        
       </div>
     </div>
   )

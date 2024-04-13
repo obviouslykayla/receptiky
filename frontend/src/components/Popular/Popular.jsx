@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Popular.css'
 import Recipe from '../Recipes/Recipe'
-import all_recipes from '../assets/all-recipes'
+import { ShopContext } from '../../context/ShopContext'
 
 const Popular = () => {
+  const {all_recipes} = useContext(ShopContext);
   return (
     <div className='popular'>
       <div className="popular-item" >

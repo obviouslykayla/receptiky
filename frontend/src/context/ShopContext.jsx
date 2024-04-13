@@ -20,12 +20,12 @@ const ShopContextProvider = (props)=>{
         .catch((error)=>console.error('error:', error))
     };
     const fetchSaveForLater = () =>{
-        if(sessionStorage.getItem('auth-token')){
+        if(localStorage.getItem('auth-token')){
             fetch('http://localhost:4000/getsaveforlater',{
                 method:'POST',
                 headers:{
                     Accept:'application/form-data',
-                    'auth-token':`${sessionStorage.getItem('auth-token')}`,
+                    'auth-token':`${localStorage.getItem('auth-token')}`,
                     'Content-Type':'application/json'
                 },
                 body:"",
@@ -40,12 +40,12 @@ const ShopContextProvider = (props)=>{
 
     const saveForLater= (recipeId)=>{
         setSaveLater((prev)=>({...prev,[recipeId]:prev[recipeId]+1}));
-        if(sessionStorage.getItem('auth-token')){
+        if(localStorage.getItem('auth-token')){
             fetch('http://localhost:4000/savelater',{
                 method:'POST',
                 headers:{
                     Accept:'application/json',
-                    'auth-token':`${sessionStorage.getItem('auth-token')}`,
+                    'auth-token':`${localStorage.getItem('auth-token')}`,
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({"recipeId":recipeId}),
@@ -54,12 +54,12 @@ const ShopContextProvider = (props)=>{
     }
     const removeFromSave= (recipeId)=>{
         setSaveLater((prev)=>({...prev,[recipeId]:prev[recipeId]-1}));
-        if(sessionStorage.getItem('auth-token')){
+        if(localStorage.getItem('auth-token')){
             fetch('http://localhost:4000/removefromsave',{
                 method:'POST',
                 headers:{
                     Accept:'application/json',
-                    'auth-token':`${sessionStorage.getItem('auth-token')}`,
+                    'auth-token':`${localStorage.getItem('auth-token')}`,
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({"recipeId":recipeId}),

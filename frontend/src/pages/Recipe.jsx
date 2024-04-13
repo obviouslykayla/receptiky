@@ -26,7 +26,6 @@ const Recipe = () => {
     useEffect(() => {
     fetchRecipe();
   }, []);
-  console.log(recipe)
 
   if(recipe != undefined){
   return (

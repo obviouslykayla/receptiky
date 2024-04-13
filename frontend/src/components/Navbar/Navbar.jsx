@@ -23,18 +23,18 @@ const Navbar = () => {
             <li onClick={()=>{setMenu("Hlavní chody")}}><Link style={{textDecoration: 'none'}} to='/hlavni-chody'>Hlavní chody</Link>{menu==="Hlavní chody"? <hr/>:<></>}</li>
             <li onClick={()=>{setMenu("Saláty")}}><Link style={{textDecoration: 'none'}} to='/salaty'>Saláty</Link>{menu==="Saláty"? <hr/>:<></>}</li>
         </ul>
-        {sessionStorage.getItem('auth-token')
-        ?<button onClick={()=>{sessionStorage.removeItem('auth-token');
+        {localStorage.getItem('auth-token')
+        ?<button onClick={()=>{localStorage.removeItem('auth-token');
         window.location.replace('/addrecipe')}}>Přidat recept</button>
         :<></>
         }
-        {sessionStorage.getItem('auth-token')
-        ?<button onClick={()=>{sessionStorage.removeItem('auth-token');
+        {localStorage.getItem('auth-token')
+        ?<button onClick={()=>{localStorage.removeItem('auth-token');
         window.location.replace('/listrecipe')}}>Seznam receptů</button>
         :<></>
         }
-        {sessionStorage.getItem('auth-token')
-        ?<button onClick={()=>{sessionStorage.removeItem('auth-token');
+        {localStorage.getItem('auth-token')
+        ?<button onClick={()=>{localStorage.removeItem('auth-token');
         window.location.replace('/')}}>Logout</button>
         :<Link to='/login'><button>Login</button></Link>
         }

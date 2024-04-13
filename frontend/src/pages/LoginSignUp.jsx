@@ -25,7 +25,7 @@ const LoginSignUp = () => {
       body: JSON.stringify(formData),
     }).then((response)=>response.json()).then((data)=>responseData=data)
   if(responseData.success){
-    sessionStorage.setItem('auth-token',responseData.token);
+    localStorage.setItem('auth-token',responseData.token);
     window.location.replace("/");
   }
   else{
@@ -44,7 +44,7 @@ const LoginSignUp = () => {
       body: JSON.stringify(formData),
     }).then((response)=>response.json()).then((data)=>responseData=data)
   if(responseData.success){
-    sessionStorage.setItem('auth-token',responseData.token);
+    localStorage.setItem('auth-token',responseData.token);
     window.location.replace("/");
   }
   else{

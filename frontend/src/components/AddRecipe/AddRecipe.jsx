@@ -112,7 +112,7 @@ const AddRecipe = () => {
       <div className="addrecipe-time">
         <div className="addrecipe-time-itemfield">
           <p>Čas přípravy</p>
-          <input type="text" name="time" placeholder='here' />
+          <input value={recipeDetails.preparation_time} onChange={changeHandler} type="text" name="preparation_time" placeholder='here' />
         </div>
       </div>
       <div className="addrecipe-time">
