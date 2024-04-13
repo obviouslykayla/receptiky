@@ -7,8 +7,6 @@ import Recipe from '../Recipes/Recipe'
 
 const CartItems = () => {
     const {all_recipes, cartItems, removeFromSave}= useContext(ShopContext);
-
-
   return (
     <div className="cart">
     <div className='cartitems'>
@@ -16,9 +14,9 @@ const CartItems = () => {
         if(cartItems[e.id]>0){
             return (
                 <>
-            <Recipe id={e.id} name={e.name} image={e.image}/>
-            <img src={remove_icon} width="25px"className='cartitems-remove-icon' onClick={()=>{removeFromSave(e.id)}}  alt="" />
-            </>
+                  <Recipe id={e.id} name={e.name} image={e.image}/>
+                  <img src={remove_icon} width="25px"className='cartitems-remove-icon' onClick={()=>{removeFromSave(e.id)}}  alt="" />
+                </>
         )
 
         }

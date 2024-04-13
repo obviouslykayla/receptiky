@@ -66,26 +66,8 @@ const ShopContextProvider = (props)=>{
             }).then((response)=>response.json()).then((data)=>setSaveLater(data)).catch((error)=>console.error('error:', error))
         }
     }
-    const getTotalCartAmount = ()=>{
-        let totalAmount = 0;
-        for(const item in saveLater){
-            if(saveLater[item]>0){
-                let itemInfo= all_recipes.find((recipe)=>recipe.id==Number(item))
-                totalAmount+=itemInfo.new_price * saveLater[item];
-            }
-        }
-    }
-    const getTotalCartItems = ()=>{
-        let totalItem = 0;
-        for(const item in saveLater){
-            if(saveLater[item] > 0){
-                totalItem += saveLater[item];
-            }
-        }
-        return totalItem;
-    }
 
-    const contextValue = {getTotalCartItems,getTotalCartAmount,all_recipes, saveLater,saveForLater,removeFromSave};
+    const contextValue = {all_recipes, saveLater,saveForLater,removeFromSave};
 
     return(
         <div>

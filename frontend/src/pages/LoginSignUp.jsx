@@ -34,7 +34,6 @@ const LoginSignUp = () => {
   }
 
   const signup = async()=>{
-    console.log("signup exec", formData)
     let responseData;
     await fetch('http://localhost:4000/signup',{
       method:'POST',

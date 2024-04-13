@@ -8,14 +8,12 @@ import IngredientsBox from '../components/IngredientsBox/IngredientsBox'
 import RelatedProducts from '../components/RelatedProducts/RelatedProducts'
 
 const Recipe = () => {
-  const { all_recipes } = useContext(ShopContext);
-  const recipeId =1
-  const [recipe, setRecipe] = useState(null);
-  useEffect(() => {
+  const {recipeId} =useParams();
+  const [recipe, setRecipe] = useState();
     const fetchRecipe = async () => {
-      // Fetch recipe data by ID
       try {
-        const response = await fetch(`http://localhost:4000/recipe/${recipeId}`);
+        const id=parseInt(recipeId);
+        const response = await fetch(`http://localhost:4000/recipe/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch recipe');
         }
@@ -25,10 +23,12 @@ const Recipe = () => {
         console.error('Error fetching recipe data:', error);
       }
     };
-
+    useEffect(() => {
     fetchRecipe();
-  }, [recipeId]);
+  }, []);
   console.log(recipe)
+
+  if(recipe != undefined){
   return (
     <div>
       <Breadcrumb recipe={recipe}/>
@@ -37,6 +37,7 @@ const Recipe = () => {
       <RelatedProducts recipe={recipe}/>
     </div>
   )
+}
   }
 
 export default Recipe

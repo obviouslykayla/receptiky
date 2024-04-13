@@ -127,7 +127,7 @@ app.post('/addrecipe',async (req,res)=>{
 })
 
 app.get('/recipe/:recipeId', async (req, res) => {
-    const recipeId = req.params.id;
+    const recipeId = req.params.recipeId;
     try {
       const recipe = await Recipe.findOne({ id: recipeId });
       if (!recipe) {
