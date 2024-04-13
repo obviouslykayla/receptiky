@@ -39,11 +39,6 @@ app.post("/upload",upload.single('recipe'), (req,res)=>{
 })
 
 const Recipe=mongoose.model("Recipe",{
-    userId: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
-        required: true,
-    },
     id:{
         type:Number,
         required: true,
@@ -100,8 +95,7 @@ const fetchUser= async(req,res,next)=>{
         }
     }
 }
-app.post('/addrecipe',fetchUser,async (req,res)=>{
-    const userId = req.user.id;
+app.post('/addrecipe',async (req,res)=>{
     let recipes = await Recipe.find({});
     let id;
     if(recipes.length>0){
@@ -112,8 +106,7 @@ app.post('/addrecipe',fetchUser,async (req,res)=>{
     else{
         id=1;
     }
-    const recipe = new Recipe({
-        userId: userId,  
+    const recipe = new Recipe({ 
         id:id,
         name:req.body.name,
         image: req.body.image,

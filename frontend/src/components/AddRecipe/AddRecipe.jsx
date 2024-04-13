@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
-import "./AddRecipe.css";
-import upload_area from "../assets/velikonocni-cupcaky.jpg";
+import React, { useState } from 'react'
+import "./AddRecipe.css"
+import upload_area from "../assets/velikonocni-cupcaky.jpg"
 
 const AddRecipe = () => {
-  const [image, setImage] = useState(false);
-  const navigate = useNavigate();
-  const [recipeDetails, setRecipeDetails] = useState({
-    userId:"",
+  const [image, setImage]=useState(false);
+  const [recipeDetails, setRecipeDetails]= useState({
     name: "",
     image: "",
     category: "",
@@ -16,46 +13,19 @@ const AddRecipe = () => {
     preparation_time:"",
     preparation_process: [], 
     source: ""
-  });
-
-  const imageHandler = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const changeHandler = (e) => {
-    setRecipeDetails({ ...recipeDetails, [e.target.name]: e.target.value });
-  };
-
- const [authenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check authentication status when the component mounts
-    const authToken = sessionStorage.getItem('auth-token');
-    if (authToken) {
-      setAuthenticated(true);
-    } else {
-      setAuthenticated(false);
-    }
-  }, []);
-
-  const renderAddRecipePage = () => {
-    if (authenticated) {
-      return (
-        <div className="add-recipe">
-          {Add_Recipe}
-        </div>
-      );
-    } else {
-      // Redirect to login page if not authenticated
-      return <p>Loading</p>
-    }
-  };
-const Add_Recipe = async ()=>{
+  })
+  const imageHandler = (e)=>{
+      setImage(e.target.files[0]);
+  } 
+  const changeHandler = (e)=>{
+    setRecipeDetails({...recipeDetails,[e.target.name]:e.target.value})
+  }
+  const Add_Recipe = async ()=>{
+    let responseData;
     let recipe = { ...recipeDetails};
     recipe.ingredients = ingredients;
     recipe.preparation_process = preparationProcess;
 
-    let responseData;
     let formData = new FormData();
     formData.append('recipe',image);
 
@@ -67,16 +37,14 @@ const Add_Recipe = async ()=>{
       body:formData
     }).then((resp)=> resp.json()).then((data)=>{responseData=data});
 
-    if(sessionStorage.getItem('auth-token')){
-      if(responseData.success){
+    if(responseData.success){
       recipe.image = responseData.image_url;
-      console.log(recipe)
+      console.log(recipe);
       await fetch('http://localhost:4000/addrecipe',{
         method:'POST',
         headers:{
           Accept:'application/json',
           'Content-Type':'application/json',
-          'auth-token':`${sessionStorage.getItem('auth-token')}`,
         },
         body: JSON.stringify(recipe),
       }).then((resp)=>resp.json()).then((data)=>{
@@ -84,9 +52,6 @@ const Add_Recipe = async ()=>{
         /*redo it so that it doesn just send an alert*/
       })
     }
-  }
-  else{
-    alert("not logged in")
   }
   // Separate state for ingredients
   const [ingredients, setIngredients] = useState(['']);
@@ -134,21 +99,20 @@ const Add_Recipe = async ()=>{
 
   return (
     <div className='add-recipe'>
-      <div className='add-recipe'>
       <div className="addrecipe-itemfield">
         <p>Název receptu</p>
-        <input value={recipeDetails.name} onChange={changeHandler} type="text" name="name" placeholder='Název receptu' />
+        <input value={recipeDetails.name} onChange={changeHandler} type="text" name="name" placeholder='here motherfucker' />
       </div>
       <div className="addrecipe-serving">
         <div className="addrecipe-serving-itemfield">
-          <p>Počet porcí: </p>
-          <input value={recipeDetails.servings} onChange={changeHandler}  type="text" name="servings" placeholder='Počet porcí' />
+          <p>Počet porcí</p>
+          <input value={recipeDetails.servings} onChange={changeHandler}  type="text" name="servings" placeholder='here' />
         </div>
       </div>
       <div className="addrecipe-time">
         <div className="addrecipe-time-itemfield">
-          <p>Čas přípravy: </p>
-          <input value={recipeDetails.preparation_time} onChange={changeHandler} type="text" name="preparation_time" placeholder='Čas přípravy' />
+          <p>Čas přípravy</p>
+          <input type="text" name="time" placeholder='here' />
         </div>
       </div>
       <div className="addrecipe-time">
@@ -158,9 +122,9 @@ const Add_Recipe = async ()=>{
         </div>
       </div>
       <div className="addrecipe-itemfield">
-        <p>Kategorie: </p>
+        <p>Kategorie receptu</p>
         <select onChange={changeHandler} name="category" className='addrecipe-selector'>
-          <option value=""></option>
+        <option value=""></option>
           <option value="Sladké">Sladké</option>
           <option value="Předkrmy">Předkrmy</option>
           <option value="Nápoje">Nápoje</option>
@@ -174,11 +138,9 @@ const Add_Recipe = async ()=>{
           <img src={image?URL.createObjectURL(image):upload_area} width="50px" className="addrecipe-thumbnail" alt="" />
         </label>
         <input onChange={imageHandler} type="file" name="image"  id="file-input" hidden/>
-      
-
-      <div>
-        {/* Render input fields for ingredients */}
-        {ingredients.map((value, index) => (
+      </div>
+    <div>
+      {ingredients.map((value, index) => (
           <div key={index}>
             <input
               type="text"
@@ -192,10 +154,8 @@ const Add_Recipe = async ()=>{
         {/* Add button to add new input field for ingredients */}
         <button onClick={handleAddIngredient}>Add Ingredient</button>
       </div>
-
       <div>
-        {/* Render input fields for preparation process */}
-        {preparationProcess.map((value, index) => (
+      {preparationProcess.map((value, index) => (
           <div key={index}>
             <input
               type="text"
@@ -210,14 +170,10 @@ const Add_Recipe = async ()=>{
         <button onClick={handleAddPreparationProcess}>Add Preparation Process</button>
       </div>
       <button onClick={()=>{Add_Recipe()}} className='addrecipe-btn'>Přidej recept</button>
-    </div>
-        </div>
-        </div>
-  );
-}
-return renderAddRecipePage();
-};
 
-  
+      </div>
+
+  )
+}
 
 export default AddRecipe;
