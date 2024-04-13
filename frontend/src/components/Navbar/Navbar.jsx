@@ -6,7 +6,7 @@ import cart_icon from '../assets/logo.jpg'
 
 const Navbar = () => {
 
-    const [menu,setMenu]= useState("Recipes");
+    const [menu,setMenu]= useState("Recepty");
 
   return (
     <div className='navbar'>

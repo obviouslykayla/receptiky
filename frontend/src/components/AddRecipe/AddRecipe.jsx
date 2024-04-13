@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import "./AddRecipe.css";
-import upload_area from "./velikonocni-cupcaky.jpg";
+import upload_area from "../assets/velikonocni-cupcaky.jpg";
 
 const AddRecipe = () => {
   const [image, setImage] = useState(false);
