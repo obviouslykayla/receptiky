@@ -7,27 +7,36 @@ import { Link } from 'react-router-dom'
 const ListRecipe = () => {
 
   const [allrecipes, setAllrecipes] = useState([]);
+  const authToken = localStorage.getItem('auth-token');
 
-  const fetchInfo = async ()=>{
-    await fetch('http://localhost:4000/allrecipes')
-    .then((res)=>res.json())
-    .then((data)=>{setAllrecipes(data)});
-  }
-  useEffect(()=>{
-    fetchInfo();
-  },[])
-
-  const remove_recipe = async (id)=>{
-    await fetch('http://localhost:4000/removerecipe',{
-      method:'POST',
-      headers:{
-        Accept:'application/json',
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify({id:id})
+  const fetchInfo = async () => {
+    if (!authToken) return;
+    await fetch(`http://localhost:4000/listrecipes`, {
+      headers: {
+        'auth-token': authToken
+      }
     })
+      .then((res) => res.json())
+      .then((data) => { setAllrecipes(data) });
+  }
+
+  useEffect(() => {
+    fetchInfo();
+  }, [authToken]);
+
+  const remove_recipe = async (id) => {
+    await fetch('http://localhost:4000/removerecipe', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'auth-token': authToken
+      },
+      body: JSON.stringify({ id: id })
+    });
     await fetchInfo();
   }
+
 
   return (
     <div className='list-recipe'>

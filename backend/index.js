@@ -173,11 +173,17 @@ app.post('/addrecipe',fetchUser, async (req,res)=>{
         }
         // Get the user ID from the decoded token
         const userId = req.user.id;
-        console.log(userId);
+        const lastRecipe = await Recipe.findOne().sort({ id: -1 });
+        let lastRecipeId = 0;
+        if (lastRecipe) {
+            lastRecipeId = lastRecipe.id;
+        }
+
 
         // Create the recipe with the userId
         const recipe = new Recipe({
             userId: userId,
+            id: lastRecipeId + 1,
             name: req.body.name,
             image: req.body.image,
             category: req.body.category,
@@ -216,6 +222,23 @@ app.get('/recipe/:recipeId', async (req, res) => {
     }
   });
 
+  app.get('/listrecipes', fetchUser, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' });
+      }
+      // Get the user ID from the decoded token
+      const userId = req.user.id;
+  
+      // Assuming Recipe model has a userId field
+      const recipes = await Recipe.find({ userId: userId });
+  
+      res.json(recipes);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+      res.status(500).json({ error: 'Failed to fetch recipes' });
+    }
+  });
 //api for getting all products
 app.get('/allrecipes', async (req,res) => {
     let recipes= await Recipe.find({});

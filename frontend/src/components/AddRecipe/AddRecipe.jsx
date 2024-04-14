@@ -1,6 +1,6 @@
 import React, {useState } from 'react'
-import "./CSS/AddRecipe.css"
-import upload_area from "../components/assets/upload.png"
+import "./AddRecipe.css"
+import upload_area from "../assets/upload.png"
 
 const AddRecipe = () => {
   const [image, setImage]=useState(false);

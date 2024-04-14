@@ -28,7 +28,7 @@ const Navbar = () => {
         {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/addrecipe')}}><p className='big'>Přidat recept</p><FontAwesomeIcon icon={faPlus} className='icon' /></li>
         :<></>
         }
-        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/listrecipe')}}><p className='big'>Seznam receptů</p><FontAwesomeIcon icon={faList} className='icon' /></li>
+        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/listrecipes')}}><p className='big'>Seznam receptů</p><FontAwesomeIcon icon={faList} className='icon' /></li>
         :<></>
         }
         {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}><p className='big'>Odhlásit se</p><FontAwesomeIcon icon={faArrowRightFromBracket} className='icon' /></li>

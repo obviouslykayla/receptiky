@@ -8,7 +8,7 @@ import Recipe from './pages/Recipe';
 import LoginSignUp from './pages/LoginSignUp';
 import Footer from './components/Footer/Footer';
 import CartItems from './components/CartItems/CartItems';
-import AddRecipe from './pages/AddRecipe';
+import AddRecipe from './components/AddRecipe/AddRecipe';
 import EditRecipe from './components/EditRecipe/EditRecipe';
 import ListRecipe from './components/ListRecipe/ListRecipe';
 
@@ -29,7 +29,7 @@ function App() {
           <Route path=':recipeId' element={<Recipe/>}/>
         </Route>
         <Route path="/addrecipe" element={<AddRecipe/>} />
-        <Route path="/listrecipe" element={<ListRecipe/>} />
+        <Route path="/listrecipes" element={<ListRecipe/>} />
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/savelater' element={<CartItems/>}/>
         <Route path='/updaterecipe' element={<EditRecipe/>}>
