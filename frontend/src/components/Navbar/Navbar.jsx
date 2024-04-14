@@ -25,10 +25,10 @@ const Navbar = () => {
             <li onClick={()=>{setMenu("Polévky")}}><Link style={{textDecoration: 'none'}} to='/polevky'><p className='big'>Polévky</p><FontAwesomeIcon icon={faBowlRice} className='icon' /></Link>{menu==="Polévky"? <hr/>:<></>}</li>
             <li onClick={()=>{setMenu("Hlavní chody")}}><Link style={{textDecoration: 'none'}} to='/hlavni-chody'><p className='big'>Hlavní chody</p><FontAwesomeIcon icon={faBowlFood} className='icon' /></Link>{menu==="Hlavní chody"? <hr/>:<></>}</li>
             <li onClick={()=>{setMenu("Saláty")}}><Link style={{textDecoration: 'none'}} to='/salaty'><p className='big'>Saláty</p><FontAwesomeIcon icon={faPlateWheat} className='icon' /></Link>{menu==="Saláty"? <hr/>:<></>}</li>
-        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/addrecipe')}}><p className='big'>Přidat recept</p><FontAwesomeIcon icon={faPlus} className='icon' /></li>
+        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/addrecipe')}}><p className='big'>Přidat recept</p><FontAwesomeIcon icon={faPlus} className='icon' /></li>
         :<></>
         }
-        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/listrecipe')}}><p className='big'>Seznam receptů</p><FontAwesomeIcon icon={faList} className='icon' /></li>
+        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/listrecipe')}}><p className='big'>Seznam receptů</p><FontAwesomeIcon icon={faList} className='icon' /></li>
         :<></>
         }
         {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}><p className='big'>Odhlásit se</p><FontAwesomeIcon icon={faArrowRightFromBracket} className='icon' /></li>
