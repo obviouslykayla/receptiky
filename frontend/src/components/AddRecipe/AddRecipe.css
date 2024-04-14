@@ -92,3 +92,8 @@ width: 50%;
   .addrecipe-item button:hover {
     background-color: #10cb74;
   }
+  @media (max-width: 800px) {
+    .add-recipe{
+      margin-left: 20px;
+    }
+  }

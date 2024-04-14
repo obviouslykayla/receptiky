@@ -39,7 +39,6 @@ const AddRecipe = () => {
 
     if(responseData.success){
       recipe.image = responseData.image_url;
-      console.log(recipe);
       await fetch('http://localhost:4000/addrecipe',{
         method:'POST',
         headers:{

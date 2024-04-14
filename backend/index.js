@@ -117,9 +117,7 @@ app.post('/addrecipe',async (req,res)=>{
         ingredients:req.body.ingredients,
         source:req.body.source,
     });
-    console.log(recipe);
     await recipe.save();
-    console.log("saved");
     res.json({
         success:true,
         name:req.body.name,
@@ -148,7 +146,6 @@ app.get('/allrecipes', async (req,res) => {
 //deleting products
 app.post('/removerecipe',async (req,res)=>{
     await Recipe.findOneAndDelete({id:req.body.id});
-    console.log("removed");
     res.json({
         success:true,
         name:req.body.name,
@@ -256,7 +253,6 @@ app.post('/login', async (req,res)=>{
 
 //save for later
 app.post('/savelater',fetchUser,async(req,res)=>{
-    console.log("added",req.body.recipeId);
     let userData = await Users.findOne({_id:req.user.id});
     userData.saveLater[req.body.recipeId]=1;
     await Users.findOneAndUpdate({_id:req.user.id},{saveLater:userData.saveLater});
@@ -265,7 +261,6 @@ app.post('/savelater',fetchUser,async(req,res)=>{
 
 //remove from save for later
 app.post('/removefromsave', fetchUser,async(req,res)=>{
-    console.log("removed",req.body.recipeId);
     let userData = await Users.findOne({_id:req.user.id});
     userData.saveLater[req.body.recipeId]=0;
     await Users.findOneAndUpdate({_id:req.user.id},{saveLater:userData.saveLater});
@@ -274,7 +269,6 @@ app.post('/removefromsave', fetchUser,async(req,res)=>{
 
 //get save for later
 app.post('/getsaveforlater',fetchUser,async(req,res)=>{
-    console.log("fetched");
     let userData = await Users.findOne({_id:req.user.id});
     res.json(userData.saveLater);
 })

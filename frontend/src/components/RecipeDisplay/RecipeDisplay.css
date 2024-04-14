@@ -5,7 +5,8 @@
 }
 .productdisplay img{
     display: flex;
-    width: 80%;
+    width: 125vh;
+    height: auto;
     padding-right: 25px;
 }
 .productdisplay-right{
@@ -42,4 +43,15 @@
 }
 .productdisplay-right-category span{
     font-weight: 600;
+}
+@media (max-width: 800px) {
+    .productdisplay{
+        margin-left: 10px;
+    }
+    .productdisplay img{
+        width: 75%;
+    }
+    .productdisplay-down{
+        display: block;
+    }
 }

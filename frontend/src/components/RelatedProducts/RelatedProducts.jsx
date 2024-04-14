@@ -8,7 +8,7 @@ const RelatedProducts = (props) => {
   const {all_recipes} = useContext(ShopContext);
   return (
     <div className='relatedproducts'>
-      <h1>Related Products</h1>
+      <h1>Podobné recepty</h1>
       <hr />
       <div className="relatedproducts-item">
       {all_recipes.map((item, i)=>{

@@ -1,17 +1,18 @@
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background-color: #fff;
     padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .navbar .nav-logo {
     display: flex;
-    align-items: center;
+    align-items: start;
   }
-  
+  .nav-logo {
+    padding: 10px;
+  }
   .navbar .nav-logo img {
     margin-right: 10px;
   }
@@ -43,21 +44,25 @@
     border: none;
   }
   
-  .navbar button {
-    padding: 10px 20px;
-    background-color: #10cb74;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .navbar button:hover {
-    background-color: #0ea95e;
-  }
-  
   .navbar img {
     margin-left: 20px;
     cursor: pointer;
   }
-  
+  .icon{
+    display: none;
+  }
+  .saveLater{
+    height: 30px;
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .nav-name{
+      display: none;
+    }
+    .icon{
+      display: block;
+    }
+    .big{
+      display: none;
+    }
+  }
