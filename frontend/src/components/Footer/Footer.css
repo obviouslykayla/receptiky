@@ -58,6 +58,6 @@
 }
 @media (max-width: 800px) {
     .footer{
-        
+        margin: 0px;
     }
 }

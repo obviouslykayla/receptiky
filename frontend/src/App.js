@@ -9,7 +9,7 @@ import LoginSignUp from './pages/LoginSignUp';
 import Footer from './components/Footer/Footer';
 import CartItems from './components/CartItems/CartItems';
 import AddRecipe from './components/AddRecipe/AddRecipe';
-import EditRecipe from './components/EditRecipe/EditRecipe';
+
 import ListRecipe from './components/ListRecipe/ListRecipe';
 
 function App() {
@@ -32,9 +32,6 @@ function App() {
         <Route path="/listrecipes" element={<ListRecipe/>} />
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/savelater' element={<CartItems/>}/>
-        <Route path='/updaterecipe' element={<EditRecipe/>}>
-        <Route path=':recipeId' element={<EditRecipe/>}/>
-        </Route>
       </Routes>
       <Footer/>
       </BrowserRouter>

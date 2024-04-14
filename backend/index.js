@@ -252,21 +252,6 @@ app.post('/removerecipe',async (req,res)=>{
         name:req.body.name,
     })
 })
-app.put('/updaterecipe:recipeId', async (req, res) => {
-    const recipeId = req.params.recipeId;
-    try {
-      const { id:recipeId, ...updatedRecipeData } = req.body;
-      const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedRecipeData, { new: true });
-      if (updatedRecipe) {
-        res.json({ success: true, message: 'Recipe updated successfully', updatedRecipe });
-      } else {
-        res.status(404).json({ success: false, message: 'Recipe not found' });
-      }
-    } catch (error) {
-      console.error('Error updating recipe:', error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-  });
 
 //save for later
 app.post('/savelater',fetchUser,async(req,res)=>{

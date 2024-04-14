@@ -8,7 +8,6 @@
   
   .navbar .nav-logo {
     display: flex;
-    align-items: flex-start;
   }
   .nav-logo {
     padding: 10px;
@@ -56,13 +55,30 @@
     align-items: center;
   }
   @media (max-width: 800px) {
+    .navbar{
+      padding: 0px;
+      padding-top: 5px;
+      margin: 0px;
+      height: 70px;
+      width: 100%;
+    }
+    .nav-logo{
+      padding: 0px;
+    }
     .nav-name{
       display: none;
     }
     .icon{
-      display: block;
+      display: flex;
     }
     .big{
       display: none;
+    }
+    .navbar .nav-menu li {
+      margin: 2px;
+      margin-right: 10px;
+    }
+    .navbar img {
+      margin-left: 10px;
     }
   }

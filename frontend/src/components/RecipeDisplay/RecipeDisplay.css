@@ -46,10 +46,12 @@
 }
 @media (max-width: 800px) {
     .productdisplay{
+        margin: 0px;
         margin-left: 10px;
     }
     .productdisplay img{
         width: 75%;
+        display: block;
     }
     .productdisplay-down{
         display: block;

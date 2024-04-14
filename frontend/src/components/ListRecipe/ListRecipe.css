@@ -28,3 +28,13 @@
     font-weight: 500;
     
 }
+@media (max-width: 800px) {
+    .list-recipe{
+        padding: 10px;
+        margin: 0px;
+        width: 90%;
+    }
+    .hr{
+        width: 80%;
+    }
+}

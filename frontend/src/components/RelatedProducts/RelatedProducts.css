@@ -24,17 +24,23 @@
 .relatedproducts-item img{
     width: 25vh;
 }
+
 @media (max-width: 800px) {
     .relatedproducts{
         align-items: flex-start;
-        margin-left: 30px;
     }
-    .relatedproducts-item{
+    .relatedproducts-item {
+        margin-top: 50px;
         display: flex;
-        flex-direction: column;
-        width: 40%;
+        flex-wrap:wrap ;
+        width: 80%;
+        max-width: 100%; 
     }
-    .relatedproducts-item img{
-        width: 50vh;
+    
+    .relatedproducts-item img {
+        width: 100%; 
+        max-width: 100%;
+        height: auto;
     }
+
 }
