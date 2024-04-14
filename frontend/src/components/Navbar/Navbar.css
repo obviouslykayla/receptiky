@@ -8,7 +8,7 @@
   
   .navbar .nav-logo {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
   }
   .nav-logo {
     padding: 10px;
@@ -16,7 +16,6 @@
   .navbar .nav-logo img {
     margin-right: 10px;
   }
-  
   .navbar .nav-menu {
     display: flex;
     list-style-type: none;
@@ -27,6 +26,7 @@
   .navbar .nav-menu li {
     margin-right: 20px;
     position: relative;
+    cursor: pointer;
   }
   
   .navbar .nav-menu li a {

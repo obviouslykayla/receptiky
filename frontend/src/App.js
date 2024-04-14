@@ -2,13 +2,13 @@ import './App.css';
 import React from 'react'; 
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Shop';
+import Home from './pages/Home';
 import ShopCategory from './pages/ShopCategory';
 import Recipe from './pages/Recipe';
 import LoginSignUp from './pages/LoginSignUp';
 import Footer from './components/Footer/Footer';
 import CartItems from './components/CartItems/CartItems';
-import AddRecipe from './components/AddRecipe/AddRecipe';
+import AddRecipe from './pages/AddRecipe';
 import EditRecipe from './components/EditRecipe/EditRecipe';
 import ListRecipe from './components/ListRecipe/ListRecipe';
 
@@ -32,7 +32,9 @@ function App() {
         <Route path="/listrecipe" element={<ListRecipe/>} />
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/savelater' element={<CartItems/>}/>
-        <Route path='/' element={<Home/>}/>
+        <Route path='/updaterecipe' element={<EditRecipe/>}>
+        <Route path=':recipeId' element={<EditRecipe/>}/>
+        </Route>
       </Routes>
       <Footer/>
       </BrowserRouter>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import "./ListRecipe.css"
 import remove_icon from '../assets/delete.png'
+import edit_icon from '../assets/edit.png'
+import { Link } from 'react-router-dom'
 
 const ListRecipe = () => {
 
@@ -36,7 +38,7 @@ const ListRecipe = () => {
     <div key={index} className="listrecipes-format-main listrecipes-format">
       <img src={recipe.image}  alt="" className="listrecipe-recipe-icon" />
       <p>{recipe.name}</p>
-      <p>{recipe.category}</p>
+      <Link to='/updaterecipe'><img src={edit_icon} width="25px" alt=""/></Link>
       <img onClick={()=>{remove_recipe(recipe.id)}} src={remove_icon} width="25px" alt="" className='listrecipe-remove-icon'/>
     </div>
     <hr />

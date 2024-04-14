@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path= require('path');
 const cors = require('cors');
-const { type } = require('os');
 
 app.use(express.json());
 app.use(cors());
@@ -39,6 +38,10 @@ app.post("/upload",upload.single('recipe'), (req,res)=>{
 })
 
 const Recipe=mongoose.model("Recipe",{
+    userId:{
+        type:String,
+        required:true,
+    },
     id:{
         type:Number,
         required: true,
@@ -76,110 +79,10 @@ const Recipe=mongoose.model("Recipe",{
         required:true,
     },
     source:{
-        type:String
-    }
-})
-//middleware to fetch user
-const fetchUser= async(req,res,next)=>{
-    const token = req.header('auth-token');
-    if(!token){
-        res.status(401).send({errors:'You are not logged in'});
-    }
-    else{
-        try {
-            const data = jwt.verify(token,'secret_recipe');
-            req.user = data.user;
-            next();
-        } catch (error) {
-            res.status(401).send({errors:'Token is not valid'});
-        }
-    }
-}
-app.post('/addrecipe',async (req,res)=>{
-    let recipes = await Recipe.find({});
-    let id;
-    if(recipes.length>0){
-        let last_recipe_array = recipes.slice(-1);
-        let last_recipe = last_recipe_array[0];
-        id = last_recipe.id+1;
-    }
-    else{
-        id=1;
-    }
-    const recipe = new Recipe({ 
-        id:id,
-        name:req.body.name,
-        image: req.body.image,
-        category:req.body.category,
-        servings:req.body.servings,
-        preparation_time:req.body.preparation_time,
-        preparation_process:req.body.preparation_process,
-        ingredients:req.body.ingredients,
-        source:req.body.source,
-    });
-    await recipe.save();
-    res.json({
-        success:true,
-        name:req.body.name,
-    })
-})
-
-app.get('/recipe/:recipeId', async (req, res) => {
-    const recipeId = req.params.recipeId;
-    try {
-      const recipe = await Recipe.findOne({ id: recipeId });
-      if (!recipe) {
-        return res.status(404).json({ error: 'Recipe not found' });
-      }
-      res.json(recipe);
-    } catch (error) {
-      console.error('Error fetching recipe:', error);
-      res.status(500).json({ error: 'Failed to fetch recipe' });
-    }
-  });
-
-//api for getting all products
-app.get('/allrecipes', async (req,res) => {
-    let recipes= await Recipe.find({});
-    res.send(recipes);
-})
-//deleting products
-app.post('/removerecipe',async (req,res)=>{
-    await Recipe.findOneAndDelete({id:req.body.id});
-    res.json({
-        success:true,
-        name:req.body.name,
-    })
-})
-
-
-
-//reviews schema
-const Reviews= mongoose.model('Reviews',{
-    user:{
         type:String,
-    },
-    rating:{
-        type:String,
-    },
-    comment:{
-        type:String,
-    },
-})
-
-app.post('/reviews', async (req, res) => {
-    try {
-      const { user, rating, comment } = req.body;
-      const review = new Review({ user, rating, comment });
-      await review.save();
-      res.status(201).json({ message: 'Review saved successfully' });
-    } catch (err) {
-      console.error('Error saving review:', err);
-      res.status(500).json({ error: 'Failed to save review' });
+        required:true
     }
-  });
-
-//user schema
+})
 const Users= mongoose.model('Users',{
     username:{
         type:String
@@ -200,7 +103,22 @@ const Users= mongoose.model('Users',{
         default: Date.now(),
     }
 })
-
+//middleware to fetch user
+const fetchUser= async(req,res,next)=>{
+    const token = req.header('auth-token');
+    if(!token){
+        res.status(401).send({errors:'You are not logged in'});
+    }
+    else{
+        try {
+            const data = jwt.verify(token,'secret_recipe');
+            req.user = data.user;
+            next();
+        } catch (error) {
+            res.status(401).send({errors:'Token is not valid'});
+        }
+    }
+}
 //user registration endpoint
 app.post('/signup', async (req,res)=>{
     let check = await Users.findOne({email:req.body.email});
@@ -248,8 +166,84 @@ app.post('/login', async (req,res)=>{
         res.json({success:false, errors:"user doesnt exist"});
     }
 })
+app.post('/addrecipe',fetchUser, async (req,res)=>{
+    try {
+        if (!req.user) {
+            return res.status(401).json({ success: false, error: 'Unauthorized' });
+        }
+        // Get the user ID from the decoded token
+        const userId = req.user.id;
+        console.log(userId);
 
+        // Create the recipe with the userId
+        const recipe = new Recipe({
+            userId: userId,
+            name: req.body.name,
+            image: req.body.image,
+            category: req.body.category,
+            servings: req.body.servings,
+            preparation_time: req.body.preparation_time,
+            preparation_process: req.body.preparation_process,
+            ingredients: req.body.ingredients,
+            source: req.body.source,
+        });
 
+        // Save the recipe
+        await recipe.save();
+
+        // Respond with success message
+        res.json({
+            success: true,
+            name: req.body.name,
+        });
+    } catch (error) {
+        console.error('Error adding recipe:', error);
+        res.status(500).json({ success: false, error: 'Failed to add recipe' });
+    }
+});
+
+app.get('/recipe/:recipeId', async (req, res) => {
+    const recipeId = req.params.recipeId;
+    try {
+      const recipe = await Recipe.findOne({ id: recipeId });
+      if (!recipe) {
+        return res.status(404).json({ error: 'Recipe not found' });
+      }
+      res.json(recipe);
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+      res.status(500).json({ error: 'Failed to fetch recipe' });
+    }
+  });
+
+//api for getting all products
+app.get('/allrecipes', async (req,res) => {
+    let recipes= await Recipe.find({});
+    res.send(recipes);
+})
+//deleting products
+app.post('/removerecipe',async (req,res)=>{
+    await Recipe.findOneAndDelete({id:req.body.id});
+    res.json({
+        success:true,
+        name:req.body.name,
+    })
+})
+app.put('/updaterecipe:recipeId', async (req, res) => {
+    const recipeId = req.params.recipeId;
+    try {
+      const { id:recipeId, ...updatedRecipeData } = req.body;
+      const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedRecipeData, { new: true });
+      if (updatedRecipe) {
+        res.json({ success: true, message: 'Recipe updated successfully', updatedRecipe });
+      } else {
+        res.status(404).json({ success: false, message: 'Recipe not found' });
+      }
+    } catch (error) {
+      console.error('Error updating recipe:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
 
 //save for later
 app.post('/savelater',fetchUser,async(req,res)=>{

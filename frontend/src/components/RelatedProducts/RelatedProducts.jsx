@@ -6,11 +6,14 @@ import { ShopContext } from '../../context/ShopContext';
 const RelatedProducts = (props) => {
   const {recipe}=props; 
   const {all_recipes} = useContext(ShopContext);
+  const handleRecipeClick = () => {
+    window.location.reload();
+  };
   return (
     <div className='relatedproducts'>
       <h1>Podobné recepty</h1>
       <hr />
-      <div className="relatedproducts-item">
+      <div className="relatedproducts-item" onClick={handleRecipeClick}>
       {all_recipes.map((item, i)=>{
         if(recipe.category===item.category){
             return <Recipe key={i} id={item.id} name={item.name} image={item.image}/>

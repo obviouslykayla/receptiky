@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import "./EditRecipe.css"
-import upload_area from "../assets/upload.jpg"
-import { useParams } from 'react-router-dom';
+import React, {useState } from 'react'
+import "./CSS/AddRecipe.css"
+import upload_area from "../components/assets/upload.png"
 
-const EditRecipe = () => {
-  const {recipeId} =useParams();
-  const [recipe, setRecipe] = useState();
+const AddRecipe = () => {
   const [image, setImage]=useState(false);
   const [recipeDetails, setRecipeDetails]= useState({
     name: "",
@@ -40,7 +37,12 @@ const EditRecipe = () => {
   
     setRecipeDetails({ ...recipeDetails, [name]: value });
   }
-  const Edit_Recipe = async ()=>{
+  const Add_Recipe = async ()=>{
+    const authToken = localStorage.getItem('auth-token');
+    if (!authToken) {
+      alert('You need to log in first.');
+      return;
+    }
     let addRecipeError;
     let uploadImageError;
     try{
@@ -52,7 +54,7 @@ const EditRecipe = () => {
     let formData = new FormData();
     formData.append('recipe',image);
 
-    const uploadResponse = await fetch('http://localhost:4000/updaterecipe${id}', {
+    const uploadResponse = await fetch('http://localhost:4000/upload', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -68,6 +70,7 @@ const EditRecipe = () => {
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'auth-token':authToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(recipe),
@@ -135,7 +138,7 @@ const EditRecipe = () => {
     setPreparationProcess(newPreparationProcess);
   };
 
-  /*return (
+  return (
     <div className='add-recipe'>
       <div className="addrecipe-name">
         <p>Název receptu</p>
@@ -188,10 +191,12 @@ const EditRecipe = () => {
               value={value}
               onChange={(event) => handleIngredientChange(index, event)}
             />
+            {/* Add button to remove input field for ingredients */}
             <button onClick={() => handleRemoveIngredient(index)}>Odstraň pole</button>
             
           </div>
         ))}
+        {/* Add button to add new input field for ingredients */}
         <button onClick={handleAddIngredient}>Přidej další ingredience</button>
       </div>
       <div className='addrecipe-item'>
@@ -203,22 +208,21 @@ const EditRecipe = () => {
               value={value}
               onChange={(event) => handlePreparationProcessChange(index, event)}
             />
+            {/* Add button to remove input field for preparation process */}
             <button onClick={() => handleRemovePreparationProcess(index)}>Odstraň pole</button>
           </div>
         ))}
+        {/* Add button to add new input field for preparation process */}
         <button onClick={handleAddPreparationProcess}>Přidej další krok postupu</button>
       </div>
-      <button onClick={()=>{Edit_Recipe()}} 
+      <button onClick={()=>{Add_Recipe()}} 
       disabled={Object.values(errors).some(error => error !== '')} 
       style={{ cursor: Object.values(errors).some(error => error !== '') ? 'not-allowed' : 'pointer' }}
       className="addrecipe-btn">Přidej recept</button>
 
       </div>
 
-  )*/
-  return(
-    <></>
   )
 }
 
-export default EditRecipe;
+export default AddRecipe;
