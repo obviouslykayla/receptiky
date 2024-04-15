@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 export const ShopContext = createContext(null);
 
-const ShopContextProvider = (props)=>{
+const RecipeContextProvider = (props)=>{
     const [all_recipes, setAll_Recipes] = useState([]);
     const getDefaultCart = ()=>{
         let cart ={};
@@ -77,4 +77,4 @@ const ShopContextProvider = (props)=>{
         </div>
     )
 }
-export default ShopContextProvider
+export default RecipeContextProvider

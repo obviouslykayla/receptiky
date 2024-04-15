@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import './Popular.css'
 import Recipe from '../Recipes/Recipe'
-import { ShopContext } from '../../context/ShopContext'
+import { ShopContext } from '../../context/RecipeContext'
 
 const Popular = () => {
   const {all_recipes} = useContext(ShopContext);

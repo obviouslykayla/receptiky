@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import './RelatedProducts.css'
 import Recipe from '../Recipes/Recipe'
-import { ShopContext } from '../../context/ShopContext';
+import { ShopContext } from '../../context/RecipeContext';
 
 const RelatedProducts = (props) => {
   const {recipe}=props; 

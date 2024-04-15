@@ -38,70 +38,24 @@ app.post("/upload",upload.single('recipe'), (req,res)=>{
 })
 
 const Recipe=mongoose.model("Recipe",{
-    userId:{
-        type:String,
-        required:true,
-    },
-    id:{
-        type:Number,
-        required: true,
-    },
-    name:{
-        type:String,
-        required:true,
-    },
-    image:{
-        type:String,
-        required:true,
-    },
-    category:{
-        type:String,
-        required:true,
-    },
-    date:{
-        type:Date,
-        default:Date.now,
-    },
-    servings:{
-        type:Number,
-        required:true,
-    },
-    preparation_time:{
-        type:Object,
-        required:true,
-    },
-    preparation_process:{
-        type:Object,
-        required:true,
-    },
-    ingredients:{
-        type:Object,
-        required:true,
-    },
-    source:{
-        type:String,
-        required:true
-    }
+    userId:{type:String,required:true,},
+    id:{type:Number,required: true,},
+    name:{type:String,required:true,},
+    image:{type:String,required:true,},
+    category:{type:String,required:true,},
+    date:{type:Date,default:Date.now,},
+    servings:{type:Number,required:true,},
+    preparation_time:{type:Object,required:true,},
+    preparation_process:{type:Object,required:true,},
+    ingredients:{type:Object,required:true,},
+    source:{type:String,required:true}
 })
 const Users= mongoose.model('Users',{
-    username:{
-        type:String
-    },
-    email:{
-        type:String,
-        unique:true,
-    },
-    password:{
-        type:String,
-    },
-    saveLater:{
-        type: Object,
-        default:{},
-    },
-    date:{
-        type:Date,
-        default: Date.now(),
-    }
+    username:{type:String,required:true},
+    email:{type:String,unique:true,required:true},
+    password:{type:String,required:true},
+    saveLater:{type: Object,default:{},},
+    date:{type:Date,default: Date.now(),}
 })
 //middleware to fetch user
 const fetchUser= async(req,res,next)=>{
@@ -221,7 +175,7 @@ app.get('/recipe/:recipeId', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch recipe' });
     }
   });
-
+  
   app.get('/listrecipes', fetchUser, async (req, res) => {
     try {
       if (!req.user) {
@@ -239,6 +193,34 @@ app.get('/recipe/:recipeId', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch recipes' });
     }
   });
+  app.put('/editrecipe/:recipeId',fetchUser, async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ success: false, error: 'Unauthorized' });
+          }
+      const recipeId = parseInt(req.params.recipeId);
+      const userId = req.user.id;
+      const recipe = await Recipe.findOne({ id: recipeId, userId: userId});
+  
+      if (!recipe) {
+        return res.status(404).json({ error: 'Recipe not found' });
+      }
+  
+      const updatedRecipeData = req.body;
+      console.log(updatedRecipeData)
+      const updatedRecipe = await Recipe.findOneAndUpdate({ id: recipeId, userId: userId }, updatedRecipeData, { new: true });
+  
+      if (updatedRecipe) {
+        res.json({ success: true, message: 'Recipe updated successfully', updatedRecipe });
+      } else {
+        res.status(404).json({ success: false, message: 'Recipe not found' });
+      }
+    } catch (error) {
+      console.error('Error updating recipe:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
+  
 //api for getting all products
 app.get('/allrecipes', async (req,res) => {
     let recipes= await Recipe.find({});

@@ -1,7 +1,7 @@
 import React from 'react'
 import './CartItems.css'
 import { useContext } from 'react'
-import { ShopContext } from '../../context/ShopContext'
+import { ShopContext } from '../../context/RecipeContext'
 import remove_icon from '../assets/delete.png'
 import Recipe from '../Recipes/Recipe'
 

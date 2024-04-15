@@ -1,7 +1,7 @@
 import React from 'react'
 import './RecipeDisplay.css'
 import { useContext } from 'react'
-import { ShopContext } from '../../context/ShopContext'
+import { ShopContext } from '../../context/RecipeContext'
 
 const RecipeDisplay = (props) => {
     const {recipe}=props; 

@@ -1,10 +1,10 @@
 import React from 'react'
-import './CSS/ShopCategory.css'
+import './CSS/RecipeCategory.css'
 import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../context/RecipeContext'
 import Recipe from '../components/Recipes/Recipe'
 
-const ShopCategory = (props) => {
+const RecipeCategory = (props) => {
   const {all_recipes} = useContext(ShopContext)
   return (
     <div className='shop-category'>
@@ -22,4 +22,4 @@ const ShopCategory = (props) => {
   )
 }
 
-export default ShopCategory
+export default RecipeCategory

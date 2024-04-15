@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../context/RecipeContext'
 import { useParams } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import RecipeDisplay from '../components/RecipeDisplay/RecipeDisplay'
