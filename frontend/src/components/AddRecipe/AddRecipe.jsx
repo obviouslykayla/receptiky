@@ -214,9 +214,7 @@ const AddRecipe = () => {
       disabled={Object.values(errors).some(error => error !== '')} 
       style={{ cursor: Object.values(errors).some(error => error !== '') ? 'not-allowed' : 'pointer' }}
       className="addrecipe-btn">Přidej recept</button>
-
       </div>
-
   )
 }
 

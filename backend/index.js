@@ -166,38 +166,38 @@ app.post('/login', async (req, res) => {
 
 // edit user endpoint
 app.put('/edituser', fetchUser, async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const { newPassword } = req.body;
-  
-      // Find the user by ID
-      const user = await Users.findById(userId);
-  
-      if (!user) {
-        return res.status(404).json({ success: false, error: 'User not found' });
-      }
-  
-      // Validate new password length
-      if (newPassword && newPassword.length < 8) {
-        return res.status(400).json({ success: false, errors: 'New password must be at least 8 characters long' });
-      }
-  
-      // Hash the new password if provided
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-  
-      // Update user's password
-      user.password = hashedPassword;
-  
-      // Save the updated user information
-      await user.save();
-  
-      res.json({ success: true });
-    } catch (error) {
-      console.error('Error editing user:', error);
-      res.status(500).json({ success: false, errors: 'An error occurred while updating password' });
+try {
+    const userId = req.user.id;
+    const { newPassword } = req.body;
+
+    // Find the user by ID
+    const user = await Users.findById(userId);
+
+    if (!user) {
+    return res.status(404).json({ success: false, error: 'User not found' });
     }
-  });
-  
+
+    // Validate new password length
+    if (newPassword && newPassword.length < 8) {
+    return res.status(400).json({ success: false, errors: 'New password must be at least 8 characters long' });
+    }
+
+    // Hash the new password if provided
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password
+    user.password = hashedPassword;
+
+    // Save the updated user information
+    await user.save();
+
+    res.json({ success: true });
+} catch (error) {
+    console.error('Error editing user:', error);
+    res.status(500).json({ success: false, errors: 'An error occurred while updating password' });
+}
+});
+
 app.post('/addrecipe',fetchUser, async (req,res)=>{
     try {
         if (!req.user) {
@@ -241,63 +241,64 @@ app.post('/addrecipe',fetchUser, async (req,res)=>{
 });
 
 app.get('/recipe/:recipeId', async (req, res) => {
-    const recipeId = req.params.recipeId;
-    try {
-      const recipe = await Recipe.findOne({ id: recipeId });
-      if (!recipe) {
-        return res.status(404).json({ error: 'Recipe not found' });
-      }
-      res.json(recipe);
-    } catch (error) {
-      console.error('Error fetching recipe:', error);
-      res.status(500).json({ error: 'Failed to fetch recipe' });
+const recipeId = req.params.recipeId;
+try {
+    const recipe = await Recipe.findOne({ id: recipeId });
+    if (!recipe) {
+    return res.status(404).json({ error: 'Recipe not found' });
     }
-  });
-  
-  app.get('/listrecipes', fetchUser, async (req, res) => {
-    try {
-      if (!req.user) {
+    res.json(recipe);
+} catch (error) {
+    console.error('Error fetching recipe:', error);
+    res.status(500).json({ error: 'Failed to fetch recipe' });
+}
+});
+
+app.get('/listrecipes', fetchUser, async (req, res) => {
+try {
+    if (!req.user) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+    // Get the user ID from the decoded token
+    const userId = req.user.id;
+
+    // Assuming Recipe model has a userId field
+    const recipes = await Recipe.find({ userId: userId });
+
+    res.json(recipes);
+} catch (error) {
+    console.error('Error fetching recipes:', error);
+    res.status(500).json({ error: 'Failed to fetch recipes' });
+}
+});
+
+app.put('/editrecipe/:recipeId',fetchUser, async (req, res) => {
+try {
+    if (!req.user) {
         return res.status(401).json({ success: false, error: 'Unauthorized' });
-      }
-      // Get the user ID from the decoded token
-      const userId = req.user.id;
-  
-      // Assuming Recipe model has a userId field
-      const recipes = await Recipe.find({ userId: userId });
-  
-      res.json(recipes);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-      res.status(500).json({ error: 'Failed to fetch recipes' });
+        }
+    const recipeId = parseInt(req.params.recipeId);
+    const userId = req.user.id;
+    const recipe = await Recipe.findOne({ id: recipeId, userId: userId});
+
+    if (!recipe) {
+    return res.status(404).json({ error: 'Recipe not found' });
     }
-  });
-  app.put('/editrecipe/:recipeId',fetchUser, async (req, res) => {
-    try {
-        if (!req.user) {
-            return res.status(401).json({ success: false, error: 'Unauthorized' });
-          }
-      const recipeId = parseInt(req.params.recipeId);
-      const userId = req.user.id;
-      const recipe = await Recipe.findOne({ id: recipeId, userId: userId});
-  
-      if (!recipe) {
-        return res.status(404).json({ error: 'Recipe not found' });
-      }
-  
-      const updatedRecipeData = req.body;
-      const updatedRecipe = await Recipe.findOneAndUpdate({ id: recipeId, userId: userId }, updatedRecipeData, { new: true });
-  
-      if (updatedRecipe) {
-        res.json({ success: true, message: 'Recipe updated successfully', updatedRecipe });
-      } else {
-        res.status(404).json({ success: false, message: 'Recipe not found' });
-      }
-    } catch (error) {
-      console.error('Error updating recipe:', error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+
+    const updatedRecipeData = req.body;
+    const updatedRecipe = await Recipe.findOneAndUpdate({ id: recipeId, userId: userId }, updatedRecipeData, { new: true });
+
+    if (updatedRecipe) {
+    res.json({ success: true, message: 'Recipe updated successfully', updatedRecipe });
+    } else {
+    res.status(404).json({ success: false, message: 'Recipe not found' });
     }
-  });
-  
+} catch (error) {
+    console.error('Error updating recipe:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+}
+});
+
 //api for getting all products
 app.get('/allrecipes', async (req,res) => {
     let recipes= await Recipe.find({});
