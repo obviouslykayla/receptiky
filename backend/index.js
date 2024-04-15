@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path= require('path');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
 
 app.use(express.json());
 app.use(cors());
@@ -73,53 +74,130 @@ const fetchUser= async(req,res,next)=>{
         }
     }
 }
-//user registration endpoint
-app.post('/signup', async (req,res)=>{
-    let check = await Users.findOne({email:req.body.email});
-    if(check){
-        return res.status(400).json({success:false, errors:"user already exists"});
-    }
-    const user = new Users({
-        username: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        saveLater: req.body.saveLater
-    })
 
-    await user.save();
-
-    const data = {
-        user:{
-            id:user.id
+app.post('/signup', async (req, res) => {
+    try {
+        // Check if the username is provided in the request body
+        if (!req.body.username) {
+            return res.status(400).json({ success: false, errors: 'Username is required' });
         }
-    }
 
-    const token = jwt.sign(data,'secret_recipe');
-    res.json({success:true, token})
-})
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(req.body.email)) {
+            return res.status(400).json({ success: false, errors: 'Invalid email format' });
+        }
+
+        // Validate password length
+        if (req.body.password.length < 8) {
+            return res.status(400).json({ success: false, errors: 'Password must be at least 8 characters long' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // Check if the email already exists
+        let check = await Users.findOne({ email: req.body.email });
+        if (check) {
+            return res.status(400).json({ success: false, errors: "User already exists" });
+        }
+
+        // Create a new user with the hashed password
+        const user = new Users({
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword,
+            saveLater: req.body.saveLater
+        });
+
+        // Save the user to the database
+        await user.save();
+
+        const data = {
+            user: {
+                id: user.id
+            }
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(data, 'secret_recipe');
+        res.json({ success: true, token });
+    } catch (error) {
+        console.error('Error signing up user:', error);
+        res.status(500).json({ success: false, errors: 'An error occurred while signing up user' });
+    }
+});
+
 
 //user log in endpoint
-app.post('/login', async (req,res)=>{
-    let user = await  Users.findOne({email:req.body.email});
-    if(user){
-        const passCompare = req.body.password === user.password;
-        if(passCompare){
-            const data= {
-                user:{
-                    id:user.id
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Find the user by email
+        const user = await Users.findOne({ email });
+
+        if (!user) {
+            return res.json({ success: false, errors: "User doesn't exist" });
+        }
+
+        // Compare hashed password with plaintext password
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (passwordMatch) {
+            const tokenData = {
+                user: {
+                    id: user.id
                 }
-            }
-            const  token = jwt.sign(data,"secret_recipe");
-            res.json({success:true, token});
+            };
+
+            // Generate JWT token
+            const token = jwt.sign(tokenData, 'secret_recipe');
+
+            res.json({ success: true, token });
+        } else {
+            res.json({ success: false, errors: "Wrong password" });
         }
-        else{
-            res.json({success:false, errors:"wrong password"});
-        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ success: false, errors: 'An error occurred while logging in' });
     }
-    else{
-        res.json({success:false, errors:"user doesnt exist"});
+});
+
+// edit user endpoint
+app.put('/edituser', fetchUser, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const { newPassword } = req.body;
+  
+      // Find the user by ID
+      const user = await Users.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ success: false, error: 'User not found' });
+      }
+  
+      // Validate new password length
+      if (newPassword && newPassword.length < 8) {
+        return res.status(400).json({ success: false, errors: 'New password must be at least 8 characters long' });
+      }
+  
+      // Hash the new password if provided
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update user's password
+      user.password = hashedPassword;
+  
+      // Save the updated user information
+      await user.save();
+  
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error editing user:', error);
+      res.status(500).json({ success: false, errors: 'An error occurred while updating password' });
     }
-})
+  });
+  
 app.post('/addrecipe',fetchUser, async (req,res)=>{
     try {
         if (!req.user) {
@@ -207,7 +285,6 @@ app.get('/recipe/:recipeId', async (req, res) => {
       }
   
       const updatedRecipeData = req.body;
-      console.log(updatedRecipeData)
       const updatedRecipe = await Recipe.findOneAndUpdate({ id: recipeId, userId: userId }, updatedRecipeData, { new: true });
   
       if (updatedRecipe) {

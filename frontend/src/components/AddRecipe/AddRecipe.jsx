@@ -43,10 +43,7 @@ const AddRecipe = () => {
       alert('You need to log in first.');
       return;
     }
-    let addRecipeError;
-    let uploadImageError;
     try{
-    let responseData;
     let recipe = { ...recipeDetails};
     recipe.ingredients = ingredients;
     recipe.preparation_process = preparationProcess;
@@ -77,8 +74,6 @@ const AddRecipe = () => {
       });
 
       const addRecipeData = await addRecipeResponse.json();
-      addRecipeError= addRecipeData.error;
-      uploadImageError = uploadData.error;
       if (addRecipeData.success) {
         alert('Recipe added');
         window.location.reload(); // Reload the page after recipe is added

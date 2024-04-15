@@ -43,8 +43,7 @@ const ListRecipe = () => {
       <h1>Všechny recepty</h1>
       <div className="listrecipes-allrecipes">
   {allrecipes.map((recipe, index)=>{
-    console.log(recipe)
-    const recipeId=parseInt(recipe.id);
+
     return <>
     <div key={index} className="listrecipes-format-main listrecipes-format">
       <img src={recipe.image}  alt="" className="listrecipe-recipe-icon" />

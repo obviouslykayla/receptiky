@@ -210,9 +210,6 @@ const EditRecipe = () => {
   </label>
   <input onChange={imageHandler} type="file" name="image" id="file-input" hidden />
 </div>
-
-
-      {console.log('Recipe Image:', image)}
       <div className='addrecipe-item'>
         {ingredients.map((value, index) => (
           <div key={index}>

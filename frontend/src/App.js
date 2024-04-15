@@ -12,6 +12,7 @@ import AddRecipe from './components/AddRecipe/AddRecipe';
 
 import ListRecipe from './components/ListRecipe/ListRecipe';
 import EditRecipe from './components/EditRecipe/EditRecipe';
+import EditUser from './components/EditUser/EditUser';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path=':recipeId' element={<EditRecipe/>}/>
         </Route>
         <Route path='/login' element={<LoginSignUp/>}/>
+        <Route path='/edituser' element={<EditUser/>}/>
         <Route path='/savelater' element={<CartItems/>}/>
       </Routes>
       <Footer/>

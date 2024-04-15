@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useContext } from 'react'
-import { ShopContext } from '../context/RecipeContext'
+
 import { useParams } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import RecipeDisplay from '../components/RecipeDisplay/RecipeDisplay'
@@ -27,7 +26,7 @@ const Recipe = () => {
     fetchRecipe();
   }, []);
 
-  if(recipe != undefined){
+  if(recipe !== undefined){
   return (
     <div>
       <Breadcrumb recipe={recipe}/>
