@@ -37,7 +37,7 @@ const Navbar = () => {
         {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}><p className='big'>Odhlásit se</p><FontAwesomeIcon icon={faArrowRightFromBracket} className='icon' /></li>
         :<li style={{textDecoration: 'none'}}><Link to='/login'><p className='big'>Přihlásit se</p><FontAwesomeIcon icon={faArrowRightToBracket} className='icon' /></Link></li>
         }
-        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/edituser')}}><p className='big'>Upravit uživatelské údaje</p><FontAwesomeIcon icon={faUserPen} className='icon' /></li>
+        {localStorage.getItem('auth-token')?<li style={{textDecoration: 'none'}} onClick={()=>{localStorage.getItem('auth-token');window.location.replace('/edituser')}}><p className='big'>Změna hesla</p><FontAwesomeIcon icon={faUserPen} className='icon' /></li>
         :<></>
         }
         

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './EditRecipe.css';
+import '../AddRecipe/AddRecipe.css';
 import upload_area from "../assets/upload.png"
 import { useParams } from 'react-router-dom';
 
@@ -39,7 +39,12 @@ const EditRecipe = () => {
   const handleRemoveIngredient = (index) => {
     const newIngredients = [...ingredients];
     newIngredients.splice(index, 1);
-    setIngredients(newIngredients);
+    const filteredIngredients = newIngredients.filter(item => item !== '');
+    setIngredients(filteredIngredients);
+    setRecipeDetails(prevState => ({
+      ...prevState,
+      ingredients: filteredIngredients
+    }));
   };
 
   const [preparationProcess, setPreparationProcess] = useState(['']);
@@ -58,7 +63,12 @@ const EditRecipe = () => {
   const handleRemovePreparationProcess = (index) => {
     const newPreparationProcess = [...preparationProcess];
     newPreparationProcess.splice(index, 1);
-    setPreparationProcess(newPreparationProcess);
+    const filteredPreparationProcess = newPreparationProcess.filter(item => item !== '');
+    setPreparationProcess(filteredPreparationProcess);
+    setRecipeDetails(prevState => ({
+      ...prevState,
+      preparation_process: filteredPreparationProcess
+    }));
   };
 
   
@@ -100,7 +110,6 @@ const EditRecipe = () => {
       }));
     } catch (error) {
       console.error('Error uploading image:', error);
-      // Handle error
     }
   };
   
@@ -111,13 +120,13 @@ const EditRecipe = () => {
     if (name === 'preparation_time' && isNaN(value)) {
       setErrors(prevErrors => ({ ...prevErrors, preparation_time: 'Čas přípravy musí být číslo.' }));
     } else if (name === 'preparation_time' && !isNaN(value)) {
-      setErrors(prevErrors => ({ ...prevErrors, preparation_time: '' })); // Remove error if the input is a number
+      setErrors(prevErrors => ({ ...prevErrors, preparation_time: '' }));
     }
   
     if (name === 'servings' && isNaN(value)) {
       setErrors(prevErrors => ({ ...prevErrors, servings: 'Počet porcí musí být číslo.' }));
     } else if (name === 'servings' && !isNaN(value)) {
-      setErrors(prevErrors => ({ ...prevErrors, servings: '' })); // Remove error if the input is a number
+      setErrors(prevErrors => ({ ...prevErrors, servings: '' }));
     }
       setRecipeDetails(prevState => ({
         ...prevState,
@@ -155,33 +164,33 @@ const EditRecipe = () => {
 
   return (
     <div className='add-recipe'>
-      <div className="addrecipe-name">
+      <div className="addrecipe-item">
         <p>Název receptu</p>
         <input value={recipeDetails.name} onChange={changeHandler} type="text" name="name" placeholder={recipeDetails.name} />
       </div>
-      <div className="addrecipe-serving">
-        <div className={`addrecipe-time-itemfield ${errors.servings ? 'error' : ''}`}>
+      <div className="addrecipe-item">
+        <div className={` ${errors.servings ? 'error' : ''}`}>
           <p>Počet porcí</p>
           <input value={recipeDetails.servings} onChange={changeHandler} type="text" name="servings" placeholder={recipeDetails.servings}/>
           {errors.servings && <p className="error-message">{errors.servings}</p>}
         </div>
       </div>
-      <div className="addrecipe-time">
-        <div className={`addrecipe-time-itemfield ${errors.preparation_time ? 'error' : ''}`}>
+      <div className="addrecipe-item">
+        <div className={`${errors.preparation_time ? 'error' : ''}`}>
           <p>Čas přípravy v minutách</p>
           <input value={recipeDetails.preparation_time} onChange={changeHandler} type="text" name="preparation_time" placeholder={recipeDetails.preparation_time} />
           {errors.preparation_time && <p className="error-message">{errors.preparation_time}</p>}
         </div>
       </div>
-      <div className="addrecipe-source">
-        <div className="addrecipe-time-itemfield">
+      <div className="addrecipe-item">
+        <div >
           <p>Zdroj receptu </p>
           <input value={recipeDetails.source} onChange={changeHandler} type="text" name="source" placeholder={recipeDetails.source} />
         </div>
       </div>
-      <div className="addrecipe-itemfield">
+      <div className="addrecipe-item">
         <p>Kategorie receptu</p>
-        <select onChange={changeHandler} name="category" className='addrecipe-selector' placeholder={recipeDetails.category}>
+        <select onChange={changeHandler} name="category" className='addrecipe-selector' value={recipeDetails.category}>
           <option value=""></option>
           <option value="Sladké">Sladké</option>
           <option value="Předkrmy">Předkrmy</option>
@@ -196,7 +205,7 @@ const EditRecipe = () => {
   <label htmlFor="file-input">
     {recipeDetails.image ? (
       <img
-        src={image instanceof Blob ? URL.createObjectURL(image) : image} // Check if image is a Blob object
+        src={image instanceof Blob ? URL.createObjectURL(image) : image}
         className="addrecipe-thumbnail"
         alt=""
       />
@@ -241,7 +250,7 @@ const EditRecipe = () => {
       <button onClick={editRecipe}
         disabled={Object.values(errors).some(error => error !== '')}
         style={{ cursor: Object.values(errors).some(error => error !== '') ? 'not-allowed' : 'pointer' }}
-        className="addrecipe-btn">Upravit recept</button>
+        >Upravit recept</button>
     </div>
   );
 };

@@ -57,7 +57,7 @@ const LoginSignUp = () => {
       <div className="loginsignup-container">
         <h1>{state}</h1>
         <div className="loginsignup-fields">
-          {state==="Sign Up"?<input name='username' onChange={changeHandler} value={formData.username} type="text" placeholder='Username' />:<></>}
+          {state==="Sign Up"?<input name='username' onChange={changeHandler} value={formData.username} type="text" placeholder='Uživatelské jméno' />:<></>}
           <input name='email' onChange={changeHandler} value={formData.email} type="email" placeholder='Email' />
           <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='Heslo' />
         </div>

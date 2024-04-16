@@ -18,7 +18,6 @@ app.get("/",(req,res)=>{
     res.send("Express app is running");
 })
 
-//image storage
 const storage = multer.diskStorage({
     destination:'./upload/images',
     filename:(req,file,cb)=>{
@@ -28,7 +27,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage})
 
-//upload endpoint for images
 app.use('/images',express.static('upload/images'))
 
 app.post("/upload",upload.single('recipe'), (req,res)=>{
@@ -58,7 +56,6 @@ const Users= mongoose.model('Users',{
     saveLater:{type: Object,default:{},},
     date:{type:Date,default: Date.now(),}
 })
-//middleware to fetch user
 const fetchUser= async(req,res,next)=>{
     const token = req.header('auth-token');
     if(!token){
@@ -77,49 +74,33 @@ const fetchUser= async(req,res,next)=>{
 
 app.post('/signup', async (req, res) => {
     try {
-        // Check if the username is provided in the request body
         if (!req.body.username) {
             return res.status(400).json({ success: false, errors: 'Username is required' });
         }
-
-        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
             return res.status(400).json({ success: false, errors: 'Invalid email format' });
         }
-
-        // Validate password length
         if (req.body.password.length < 8) {
             return res.status(400).json({ success: false, errors: 'Password must be at least 8 characters long' });
         }
-
-        // Hash the password
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-        // Check if the email already exists
         let check = await Users.findOne({ email: req.body.email });
         if (check) {
             return res.status(400).json({ success: false, errors: "User already exists" });
         }
-
-        // Create a new user with the hashed password
         const user = new Users({
             username: req.body.username,
             email: req.body.email,
             password: hashedPassword,
             saveLater: req.body.saveLater
         });
-
-        // Save the user to the database
         await user.save();
-
         const data = {
             user: {
                 id: user.id
             }
         }
-
-        // Generate JWT token
         const token = jwt.sign(data, 'secret_recipe');
         res.json({ success: true, token });
     } catch (error) {
@@ -128,30 +109,20 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-
-//user log in endpoint
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-
-        // Find the user by email
         const user = await Users.findOne({ email });
-
         if (!user) {
             return res.json({ success: false, errors: "User doesn't exist" });
         }
-
-        // Compare hashed password with plaintext password
         const passwordMatch = await bcrypt.compare(password, user.password);
-
         if (passwordMatch) {
             const tokenData = {
                 user: {
                     id: user.id
                 }
             };
-
-            // Generate JWT token
             const token = jwt.sign(tokenData, 'secret_recipe');
 
             res.json({ success: true, token });
@@ -163,34 +134,20 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ success: false, errors: 'An error occurred while logging in' });
     }
 });
-
-// edit user endpoint
 app.put('/edituser', fetchUser, async (req, res) => {
 try {
     const userId = req.user.id;
     const { newPassword } = req.body;
-
-    // Find the user by ID
     const user = await Users.findById(userId);
-
     if (!user) {
     return res.status(404).json({ success: false, error: 'User not found' });
     }
-
-    // Validate new password length
     if (newPassword && newPassword.length < 8) {
     return res.status(400).json({ success: false, errors: 'New password must be at least 8 characters long' });
     }
-
-    // Hash the new password if provided
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Update user's password
     user.password = hashedPassword;
-
-    // Save the updated user information
     await user.save();
-
     res.json({ success: true });
 } catch (error) {
     console.error('Error editing user:', error);
@@ -203,16 +160,12 @@ app.post('/addrecipe',fetchUser, async (req,res)=>{
         if (!req.user) {
             return res.status(401).json({ success: false, error: 'Unauthorized' });
         }
-        // Get the user ID from the decoded token
         const userId = req.user.id;
         const lastRecipe = await Recipe.findOne().sort({ id: -1 });
         let lastRecipeId = 0;
         if (lastRecipe) {
             lastRecipeId = lastRecipe.id;
         }
-
-
-        // Create the recipe with the userId
         const recipe = new Recipe({
             userId: userId,
             id: lastRecipeId + 1,
@@ -225,11 +178,7 @@ app.post('/addrecipe',fetchUser, async (req,res)=>{
             ingredients: req.body.ingredients,
             source: req.body.source,
         });
-
-        // Save the recipe
         await recipe.save();
-
-        // Respond with success message
         res.json({
             success: true,
             name: req.body.name,
@@ -259,12 +208,8 @@ try {
     if (!req.user) {
     return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
-    // Get the user ID from the decoded token
     const userId = req.user.id;
-
-    // Assuming Recipe model has a userId field
     const recipes = await Recipe.find({ userId: userId });
-
     res.json(recipes);
 } catch (error) {
     console.error('Error fetching recipes:', error);
@@ -299,12 +244,10 @@ try {
 }
 });
 
-//api for getting all products
 app.get('/allrecipes', async (req,res) => {
     let recipes= await Recipe.find({});
     res.send(recipes);
 })
-//deleting products
 app.post('/removerecipe',async (req,res)=>{
     await Recipe.findOneAndDelete({id:req.body.id});
     res.json({
@@ -312,8 +255,6 @@ app.post('/removerecipe',async (req,res)=>{
         name:req.body.name,
     })
 })
-
-//save for later
 app.post('/savelater',fetchUser,async(req,res)=>{
     let userData = await Users.findOne({_id:req.user.id});
     userData.saveLater[req.body.recipeId]=1;
@@ -321,7 +262,6 @@ app.post('/savelater',fetchUser,async(req,res)=>{
     res.send("added");
 })
 
-//remove from save for later
 app.post('/removefromsave', fetchUser,async(req,res)=>{
     let userData = await Users.findOne({_id:req.user.id});
     userData.saveLater[req.body.recipeId]=0;
@@ -329,7 +269,6 @@ app.post('/removefromsave', fetchUser,async(req,res)=>{
     res.send("removed");
 })
 
-//get save for later
 app.post('/getsaveforlater',fetchUser,async(req,res)=>{
     let userData = await Users.findOne({_id:req.user.id});
     res.json(userData.saveLater);

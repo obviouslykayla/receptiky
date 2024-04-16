@@ -26,13 +26,13 @@ const AddRecipe = () => {
     if (name === 'preparation_time' && isNaN(value)) {
       setErrors(prevErrors => ({ ...prevErrors, preparation_time: 'Čas přípravy musí být číslo.' }));
     } else if (name === 'preparation_time' && !isNaN(value)) {
-      setErrors(prevErrors => ({ ...prevErrors, preparation_time: '' })); // Remove error if the input is a number
+      setErrors(prevErrors => ({ ...prevErrors, preparation_time: '' }));
     }
   
     if (name === 'servings' && isNaN(value)) {
       setErrors(prevErrors => ({ ...prevErrors, servings: 'Počet porcí musí být číslo.' }));
     } else if (name === 'servings' && !isNaN(value)) {
-      setErrors(prevErrors => ({ ...prevErrors, servings: '' })); // Remove error if the input is a number
+      setErrors(prevErrors => ({ ...prevErrors, servings: '' }));
     }
   
     setRecipeDetails({ ...recipeDetails, [name]: value });
@@ -76,12 +76,12 @@ const AddRecipe = () => {
       const addRecipeData = await addRecipeResponse.json();
       if (addRecipeData.success) {
         alert('Recipe added');
-        window.location.reload(); // Reload the page after recipe is added
+        window.location.reload();
       } else {
-        alert('Failed to add recipe: ' + addRecipeData.error); // Display error message to user
+        alert('Failed to add recipe: ' + addRecipeData.error);
       }
     } else {
-      alert('Failed to upload image: ' + uploadData.error); // Display error message to user
+      alert('Failed to upload image: ' + uploadData.error);
     }
   } catch (error) {
     console.error('Error adding recipe:', error);
@@ -89,44 +89,36 @@ const AddRecipe = () => {
 
   }
   }
-  // Separate state for ingredients
   const [ingredients, setIngredients] = useState(['']);
 
-  // Function to handle input change for ingredients
   const handleIngredientChange = (index, event) => {
     const newIngredients = [...ingredients];
     newIngredients[index] = event.target.value;
     setIngredients(newIngredients);
   };
 
-  // Function to add a new input field for ingredients
   const handleAddIngredient = () => {
     setIngredients([...ingredients, '']);
   };
 
-  // Function to remove an input field for ingredients
   const handleRemoveIngredient = (index) => {
     const newIngredients = [...ingredients];
     newIngredients.splice(index, 1);
     setIngredients(newIngredients);
   };
 
-  // Separate state for preparation process
   const [preparationProcess, setPreparationProcess] = useState(['']);
 
-  // Function to handle input change for preparation process
   const handlePreparationProcessChange = (index, event) => {
     const newPreparationProcess = [...preparationProcess];
     newPreparationProcess[index] = event.target.value;
     setPreparationProcess(newPreparationProcess);
   };
 
-  // Function to add a new input field for preparation process
   const handleAddPreparationProcess = () => {
     setPreparationProcess([...preparationProcess, '']);
   };
 
-  // Function to remove an input field for preparation process
   const handleRemovePreparationProcess = (index) => {
     const newPreparationProcess = [...preparationProcess];
     newPreparationProcess.splice(index, 1);
@@ -186,12 +178,10 @@ const AddRecipe = () => {
               value={value}
               onChange={(event) => handleIngredientChange(index, event)}
             />
-            {/* Add button to remove input field for ingredients */}
             <button onClick={() => handleRemoveIngredient(index)}>Odstraň pole</button>
             
           </div>
         ))}
-        {/* Add button to add new input field for ingredients */}
         <button onClick={handleAddIngredient}>Přidej další ingredience</button>
       </div>
       <div className='addrecipe-item'>
@@ -203,11 +193,9 @@ const AddRecipe = () => {
               value={value}
               onChange={(event) => handlePreparationProcessChange(index, event)}
             />
-            {/* Add button to remove input field for preparation process */}
             <button onClick={() => handleRemovePreparationProcess(index)}>Odstraň pole</button>
           </div>
         ))}
-        {/* Add button to add new input field for preparation process */}
         <button onClick={handleAddPreparationProcess}>Přidej další krok postupu</button>
       </div>
       <button onClick={()=>{Add_Recipe()}} 

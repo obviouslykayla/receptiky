@@ -6,3 +6,9 @@
     justify-content: center;
     align-items: center;
 }
+@media (max-width: 800px) {
+    .hero{
+        padding: 20px;
+        width: 80%;
+    }
+}

@@ -19,26 +19,6 @@
     font-size: 46px;
     font-weight: 700;
 }
-.footer-links{
-    display: flex;
-    list-style: none;
-    gap: 50px;
-    color: #252525;
-    font-size: 20px;
-}
-.footer-links li{
-    cursor: pointer;
-}
-.footer-social-icons{
-    display: flex;
-    gap: 20px;
-}
-.footer-icons-container{
-    pad: 10px;
-    padding-bottom: 6px;
-    background: #fbfbfb;
-    border: 1px solid #ebebeb;
-}
 .footer-copyright{
     display: flex;
     flex-direction: column;
@@ -59,5 +39,20 @@
 @media (max-width: 800px) {
     .footer{
         margin: 0px;
+        margin-left: 10px;
+        margin-top: 20px;
+        width: 80%;
+        justify-content: center;
+        align-items: center;
+    }
+    .footer-logo{
+        display: flex;
+        justify-content: center;
+    }
+    .footer-logo img{
+        display: none;
+    }
+    .footer-copyright p{
+        justify-content: center;
     }
 }
