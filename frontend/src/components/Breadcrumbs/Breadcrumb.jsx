@@ -11,7 +11,7 @@ const Breadcrumb = (props) => {
         <FontAwesomeIcon icon={faAngleRight} />
         {recipe.name}
     </div>
-    )        
+    )
 }
 
 export default Breadcrumb

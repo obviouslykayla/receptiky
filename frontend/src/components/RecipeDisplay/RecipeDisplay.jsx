@@ -7,10 +7,9 @@ const RecipeDisplay = (props) => {
     const {recipe}=props; 
     const {saveForLater}= useContext(ShopContext);
     const handleRecipeClick = () => {
-      window.location.reload();
+      alert("Recept uložen na později")
     };
   return (<>
-    
     <div className='productdisplay'>
     <div className="productdisplay-down">
       <h1>{recipe.name}</h1>

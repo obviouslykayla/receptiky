@@ -22,22 +22,22 @@ const RecipeContextProvider = (props)=>{
     const fetchSaveForLater = () =>{
         if(localStorage.getItem('auth-token')){
             fetch('http://localhost:4000/getsaveforlater',{
-                method:'POST',
+                method:'GET',
                 headers:{
-                    Accept:'application/form-data',
-                    'auth-token':`${localStorage.getItem('auth-token')}`,
-                    'Content-Type':'application/json'
-                },
-                body:"",
-            }).then((response)=>response.json()).then((data)=>setSaveLater(data));
+                    Accept:'application/json',
+                    'auth-token':`${localStorage.getItem('auth-token')}`
+                }
+            })
+            .then((response)=>response.json())
+            .then((data)=>setSaveLater(data));
         }
     };    
+    
     useEffect(()=>{
         fetchAllRecipes();
         fetchSaveForLater();
-    },[])
+    },[])  
     
-
     const saveForLater= (recipeId)=>{
         setSaveLater((prev)=>({...prev,[recipeId]:prev[recipeId]+1}));
         if(localStorage.getItem('auth-token')){
@@ -49,7 +49,9 @@ const RecipeContextProvider = (props)=>{
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({"recipeId":recipeId}),
-            }).then((response)=>response.json()).then((data)=>setSaveLater(data)).catch((error)=>console.error('error:', error))
+            }).then((response)=>response.json())
+            .then((data)=>setSaveLater(data))
+            .catch((error)=>console.error('error:', error))
         }
     }
     const removeFromSave= (recipeId)=>{
@@ -63,12 +65,12 @@ const RecipeContextProvider = (props)=>{
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({"recipeId":recipeId}),
-            }).then((response)=>response.json()).then((data)=>setSaveLater(data)).catch((error)=>console.error('error:', error))
+            }).then((response)=>response.json())
+            .then((data)=>setSaveLater(data))
+            .catch((error)=>console.error('error:', error))
         }
     }
-
     const contextValue = {all_recipes, saveLater,saveForLater,removeFromSave};
-
     return(
         <div>
         <ShopContext.Provider value={contextValue}>

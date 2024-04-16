@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import './CSS/LoginSignUp.css'
 
 const LoginSignUp = () => {
-
-  const [state,setState] = useState("Login");
+  const [state,setState] = useState("Přihlášení");
   const [formData, setFormData]= useState({
     username:"",
     password:"",
@@ -51,19 +50,29 @@ const LoginSignUp = () => {
     alert(responseData.errors)
   }
   }
-
   return (
     <div className='loginsignup'>
       <div className="loginsignup-container">
         <h1>{state}</h1>
         <div className="loginsignup-fields">
-          {state==="Sign Up"?<input name='username' onChange={changeHandler} value={formData.username} type="text" placeholder='Uživatelské jméno' />:<></>}
+          {state==="Vytvoření účtu"
+          ?<input name='username' 
+          onChange={changeHandler} 
+          value={formData.username} 
+          type="text" placeholder='Uživatelské jméno' />
+          :<></>
+          }
           <input name='email' onChange={changeHandler} value={formData.email} type="email" placeholder='Email' />
           <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='Heslo' />
         </div>
-        <button onClick={()=>{state==="Login"?login():signup()}}>Pokračovat</button>
-        {state==="Sign Up"?<p className="loginsignup-login">Již máte účet? <span onClick={()=>{setState("Login")}}>Přihlašte se zde</span></p>
-        :<p className="loginsignup-login">Nemáte účet? <span onClick={()=>{setState("Sign Up")}}>Vytvořte si ho zde</span></p>}
+        <button onClick={()=>{state==="Přihlášení"?login():signup()}}>Pokračovat</button>
+        {state==="Vytvoření účtu"
+        ?<p className="loginsignup-login">Již máte účet? 
+        <span onClick={()=>{setState("Přihlášení")}}>Přihlašte se zde</span>
+        </p>
+        :<p className="loginsignup-login">Nemáte účet? 
+        <span onClick={()=>{setState("Vytvoření účtu")}}>Vytvořte si ho zde</span>
+        </p>}
       </div>
     </div>
   )

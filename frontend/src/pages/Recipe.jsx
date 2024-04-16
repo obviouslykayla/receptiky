@@ -14,12 +14,12 @@ const Recipe = () => {
         const id=parseInt(recipeId);
         const response = await fetch(`http://localhost:4000/recipe/${id}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch recipe');
+          throw new Error('Recept nebyl nalezen');
         }
         const data = await response.json();
         setRecipe(data);
       } catch (error) {
-        console.error('Error fetching recipe data:', error);
+        console.error('Error při hledání receptu:', error);
       }
     };
     useEffect(() => {

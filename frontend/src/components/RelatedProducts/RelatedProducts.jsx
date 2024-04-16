@@ -12,7 +12,6 @@ const RelatedProducts = (props) => {
   return (
     <div className='relatedproducts'>
       <h1>Podobné recepty</h1>
-
       <div className="relatedproducts-item" onClick={handleRecipeClick}>
       {all_recipes.map((item, i)=>{
         if(recipe.category===item.category){

@@ -4,7 +4,6 @@ import remove_icon from '../assets/delete.png'
 import { Link } from 'react-router-dom'
 
 const ListRecipe = () => {
-
   const [allrecipes, setAllrecipes] = useState([]);
   const authToken = localStorage.getItem('auth-token');
 
@@ -30,30 +29,31 @@ const ListRecipe = () => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'auth-token': authToken
+        'auth-token': authToken,
       },
       body: JSON.stringify({ id: id })
     });
     await fetchInfo();
   }
 
-
   return (
     <div className='list-recipe'>
       <h1>Všechny recepty</h1>
       <div className="listrecipes-allrecipes">
-  {allrecipes.map((recipe, index)=>{
-
-    return <>
-    <div key={index} className="listrecipes-format-main listrecipes-format">
-      <img src={recipe.image}  alt="" className="listrecipe-recipe-icon" />
-      <p>{recipe.name}</p>
-      <Link to={`/editrecipe/${recipe.id}`}>Edit</Link>
-<img onClick={()=>{remove_recipe(recipe.id)}} src={remove_icon} width="25px" alt="" className='listrecipe-remove-icon'/>
-    </div>
-    <hr />
-    </>
-  })}
+        {allrecipes.map((recipe, index)=>{
+          return <>
+          <div key={index} className="listrecipes-format-main listrecipes-format">
+            <img src={recipe.image}  alt="" className="listrecipe-recipe-icon" />
+            <p>{recipe.name}</p>
+            <Link to={`/editrecipe/${recipe.id}`} 
+            style={{ textDecoration: 'none',color:'red'}}>Upravit</Link>
+            <img onClick={()=>{remove_recipe(recipe.id)}} 
+            src={remove_icon} width="25px" alt="" 
+            className='listrecipe-remove-icon'/>
+          </div>
+          <hr />
+          </>
+        })}
       </div>
     </div>
   )

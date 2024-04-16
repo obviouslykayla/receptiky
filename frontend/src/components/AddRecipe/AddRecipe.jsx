@@ -78,14 +78,14 @@ const AddRecipe = () => {
         alert('Recipe added');
         window.location.reload();
       } else {
-        alert('Failed to add recipe: ' + addRecipeData.error);
+        alert('Recept se nepodařilo přidat: ' + addRecipeData.error);
       }
     } else {
-      alert('Failed to upload image: ' + uploadData.error);
+      alert('Obrázek se nepodařilo nahrát: ' + uploadData.error);
     }
   } catch (error) {
-    console.error('Error adding recipe:', error);
-    alert('An error occurred while adding the recipe. Please try again later.');
+    console.error('Recept se nepodařilo přidat:', error);
+    alert('Nastala chyba při přidávání receptu. Zkuste to později.');
 
   }
   }

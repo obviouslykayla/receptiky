@@ -1,7 +1,6 @@
-import './App.css';
 import React from 'react'; 
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import RecipeCategory from './pages/RecipeCategory';
 import Recipe from './pages/Recipe';
@@ -9,7 +8,6 @@ import LoginSignUp from './pages/LoginSignUp';
 import Footer from './components/Footer/Footer';
 import CartItems from './components/CartItems/CartItems';
 import AddRecipe from './components/AddRecipe/AddRecipe';
-
 import ListRecipe from './components/ListRecipe/ListRecipe';
 import EditRecipe from './components/EditRecipe/EditRecipe';
 import EditUser from './components/EditUser/EditUser';
@@ -33,7 +31,7 @@ function App() {
         <Route path="/addrecipe" element={<AddRecipe/>} />
         <Route path="/listrecipes" element={<ListRecipe/>} />
         <Route path='/editrecipe' element={<EditRecipe/>}>
-        <Route path=':recipeId' element={<EditRecipe/>}/>
+          <Route path=':recipeId' element={<EditRecipe/>}/>
         </Route>
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/edituser' element={<EditUser/>}/>
